@@ -3,6 +3,13 @@
 Homestead.json
 Homestead.yaml
 .env
-.phpunit.result.cache
-
-
+.git/
+.idea/
+tests/
+storage/
+composer.lock
+public/uploads/
+nohup.out
+dvhc/node_modules/data.json
+dvhc/node_modules/data.xls
+/media

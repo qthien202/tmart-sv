@@ -1,10 +1,12 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
 ))->bootstrap();
+
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
@@ -23,10 +25,22 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->instance('path.public', app()->basePath() . DIRECTORY_SEPARATOR . 'public');
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+$app->instance('path.storage', app()->basePath() . DIRECTORY_SEPARATOR . 'storage');
 
-// $app->withEloquent();
-
+$app->withFacades();
+$app->withEloquent();
+// $app->configure('cors');
+$app->configure('jwt');
+$app->configure('constants');
+$app->configure('messages');
+$app->configure('mail');
+$app->configure('import');
+$app->configure('validation');
+$app->configure('queue');
+$app->configure('filesystems');
+$app->configure('excel');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -47,6 +61,21 @@ $app->singleton(
     Illuminate\Contracts\Console\Kernel::class,
     App\Console\Kernel::class
 );
+
+$app->singleton(
+    Illuminate\Contracts\Filesystem\Factory::class,
+    function ($app) {
+        return new Illuminate\Filesystem\FilesystemManager($app);
+    }
+);
+
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent(
+        'filesystems',
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        'filesystem'
+    );
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +101,26 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+
+$app->routeMiddleware([
+    'auth'         => App\Http\Middleware\Authenticate::class,
+    'cors'         => App\Http\Middleware\CorsMiddleware::class,
+    'verifySecret' => App\Http\Middleware\VerifySecret::class,
+    'trimInput'    => App\Http\Middleware\TrimInput::class,
+    'authorize'    => App\Http\Middleware\Authorize::class
+]);
+
+// if (!class_exists('JWTAuth')) {
+//    class_alias('Tymon\JWTAuth\Facades\JWTAuth', 'JWTAuth');
+// }
+
+// if (!class_exists('JWTFactory')) {
+//    class_alias('Tymon\JWTAuth\Facades\JWTFactory', 'JWTFactory');
+// }
 
 /*
 |--------------------------------------------------------------------------
@@ -91,9 +133,15 @@ $app->configure('app');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Illuminate\Database\Eloquent\LegacyFactoryServiceProvider::class);
+//$app->register(\Illuminate\Mail\MailServiceProvider::class);
+$app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
+$app->register(\Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Jenssegers\Agent\AgentServiceProvider::class);
+class_alias(Jenssegers\Agent\Facades\Agent::class, 'Agent');
+class_alias(Maatwebsite\Excel\Facades\Excel::class, "Excel");
 
 /*
 |--------------------------------------------------------------------------
@@ -109,7 +157,7 @@ $app->configure('app');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
