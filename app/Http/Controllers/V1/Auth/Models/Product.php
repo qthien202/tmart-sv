@@ -25,7 +25,6 @@ class Product extends Model
         "price",
         "slug",
         "sku",
-        "short_description",
         "description",
         "category_id",
         "stock_quantity",
@@ -65,9 +64,6 @@ class Product extends Model
         }
         if (isset($params['sku'])) {
             $query->where('sku', $params['sku']);
-        }
-        if (isset($params['short_description'])) {
-            $query->where('short_description', $params['short_description']);
         }
         if (isset($params['description'])) {
             $query->where('description', $params['description']);
