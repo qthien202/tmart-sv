@@ -45,6 +45,10 @@ class Product extends Model
         "related_ids"
     ];
 
+    protected $casts = [
+        'gallery_images_url' => 'json'
+    ];
+
     public function scopeSearch($query, $params){
         $query->select('*');
         if (isset($params['code'])) {
