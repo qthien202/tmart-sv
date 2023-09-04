@@ -24,6 +24,7 @@ class ProductResource extends BaseResource
                 'id'   => $this->id,
                 'code' => $this->code,
                 'product_name' => $this->product_name,
+                'default_price' => $this->price,
                 'price' => Price::getProductPrice($this),
                 'slug' => $this->slug,
                 'sku' => $this->sku,
