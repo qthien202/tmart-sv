@@ -25,11 +25,11 @@ class ProductController extends BaseController
     }
     public function getProductsCate(Request $request)
     {
-        $category_name = Category::select("name")->get();
+        $category_name = Category::select("name,id")->get();
         $data=[];
 
         for ($i=0; $i < count($category_name); $i++) { 
-            $dataRequest = ["product_name" => $category_name[$i]->name];
+            $dataRequest = ["category_id" => $category_name[$i]->id];
 
             $data[] = [
                 $category_name[$i]->name => $this->getProducts(new Request($dataRequest))
