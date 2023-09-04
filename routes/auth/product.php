@@ -5,6 +5,7 @@ $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->put('/update_product/{id}', 'ProductController@updateProduct');
 $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
 $api->get('/get_product_by_category_id/{id}', 'ProductController@getProductByCategoryId');
+$api->get('/get_products_cate', 'ProductController@getProductsCate');
 
 // $api->post('/add_to_cart', 'CartController@addToCart');
 // $api->put('/update_cart/{id}', 'CartController@updateCart');

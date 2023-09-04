@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Auth\Controllers;
 
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Controllers\V1\Auth\Resources\Product\ProductCollection;
@@ -22,7 +23,23 @@ class ProductController extends BaseController
         $product = $this->model->search($request->all());
         return new ProductCollection($product);
     }
+    public function getProductsCate(Request $request)
+    {
+        $category_name = Category::select("name")->get();
+        $data=[];
 
+        for ($i=0; $i < count($category_name); $i++) { 
+            $dataRequest = ["product_name" => $category_name[$i]->name];
+
+            $data[] = [
+                $category_name[$i]->name => $this->getProducts(new Request($dataRequest))
+            ];
+        }
+        return $data;
+        // $product = $this->model->search($request->all());
+        // return new ProductCollection($product);
+
+    }
     // Lưu dữ liệu tạo mới vào cơ sở dữ liệu
     public function createProduct(Request $request)
     {
