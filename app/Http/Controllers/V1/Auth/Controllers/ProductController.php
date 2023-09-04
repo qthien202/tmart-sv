@@ -25,7 +25,7 @@ class ProductController extends BaseController
     }
     public function getProductsCate(Request $request)
     {
-        $category_name = Category::select("name,id")->get();
+        $category_name = Category::select("name","id")->get();
         $data=[];
 
         for ($i=0; $i < count($category_name); $i++) { 
