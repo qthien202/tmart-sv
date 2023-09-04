@@ -26,6 +26,7 @@ class Product extends Model
         "slug",
         "sku",
         "description",
+        "detail",
         "category_id",
         "stock_quantity",
         "manufacturer_id",
@@ -121,6 +122,9 @@ class Product extends Model
 
     public function category(){
         return $this->belongsTo(Category::class,'category_id');
+    }
+    public function manufacturer(){
+        return $this->belongsTo(Manufacturer::class,'manufacturer_id');
     }
 
     public function priceDetails(){
