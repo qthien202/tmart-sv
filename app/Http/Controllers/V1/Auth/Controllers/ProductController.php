@@ -20,9 +20,11 @@ class ProductController extends BaseController
     // Lấy danh sách các sản phẩm
     public function getProducts(Request $request)
     {
+        // return $this->model->find(235)->category()->get();
         $product = $this->model->search($request->all());
         return new ProductCollection($product);
     }
+    
     public function getProductsCate(Request $request)
     {
         $category_name = Category::select("name","id")->get();

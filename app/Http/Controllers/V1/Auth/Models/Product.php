@@ -54,8 +54,18 @@ class Product extends Model
         if (isset($params['code'])) {
             $query->where('code', $params['code']);
         }
+        // if (isset($params['category_name'])) {
+        //     $cateID = Category::where("name",$params['category_name'])->value("id");
+        //     $query->where('category_id', $cateID);
+        // }
         if (isset($params['product_name'])) {
-            $query->where('product_name', 'like', '%' . $params['product_name'] . '%');
+            $cateID = Category::where("name",$params['product_name'])->value("id");
+            if (empty($cateID)) {
+                $query->where('product_name', 'like', '%' . $params['product_name'] . '%');
+            }
+            else{
+                $query->where('category_id', $cateID);
+            }
         }
         if (isset($params['price'])) {
             $query->where('price', $params['price']);
