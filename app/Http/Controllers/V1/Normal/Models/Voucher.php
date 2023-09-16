@@ -12,7 +12,7 @@ class Voucher extends Model
 
     protected $table = 'vouchers';
 
-    protected $primaryKey = "voucher_code";
+    // protected $primaryKey = "voucher_code";
 
     protected $fillable = [
         "voucher_code",

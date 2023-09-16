@@ -111,7 +111,8 @@ $app->routeMiddleware([
     'cors'         => App\Http\Middleware\CorsMiddleware::class,
     'verifySecret' => App\Http\Middleware\VerifySecret::class,
     'trimInput'    => App\Http\Middleware\TrimInput::class,
-    'authorize'    => App\Http\Middleware\Authorize::class
+    'authorize'    => App\Http\Middleware\Authorize::class,
+    'tokenStore'    => App\Http\Middleware\TokenStore::class
 ]);
 
 // if (!class_exists('JWTAuth')) {

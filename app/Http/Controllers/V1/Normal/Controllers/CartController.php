@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 use App\Foundation\Handle;
 use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Controllers\V1\Normal\Models\Condition;
+use App\Http\Controllers\V1\Normal\Models\Voucher;
 use App\Http\Controllers\V1\Normal\Resources\Cart\CartResource;
 
 class CartController extends BaseController
@@ -251,6 +252,12 @@ class CartController extends BaseController
         }
 
     }
+    public function getCoupons(){
+        return $this->responseSuccess(null,Coupon::all());
+    }
+    public function getVouchers(){
+        return $this->responseSuccess(null,Voucher::all());
+    }
     public function removeCartDetail($id,Request $request){
         // $cart = Cart::withTrashed()->find($id)->restore();
         $userID = SERVICE::getCurrentUserId();
@@ -286,7 +293,6 @@ class CartController extends BaseController
         // coupon voucher -> bảng giá(thời gian hiệu lực, giá tới tháng 9 -> giá mới) + theo attribute/ cố định
         $userID = null;
         $userID = SERVICE::getCurrentUserId();
-
         // Lấy giỏ hàng ưu tiên user
         $this->validate($request,[
             "guest_session" =>  [Rule::requiredIf(!$userID),"exists:sessions,session_id"],
@@ -311,7 +317,6 @@ class CartController extends BaseController
             $message = "Không tìm thấy giỏ hàng";
             return $this->responseError($message);
         }
-
         // Check coupon/voucher hết hạn -> remove khỏi cart
         $handle = new Handle($cart);
         $handle->check(); 
