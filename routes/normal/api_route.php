@@ -14,7 +14,7 @@
 
 use Illuminate\Http\Request;
 
-$api->group(['prefix' => 'api/normal', 'middleware' => 'cors', 'namespace' => 'V1\Normal\Controllers'], function ($api) {
+$api->group(['prefix' => 'api/normal', 'middleware' => ['cors'], 'namespace' => 'V1\Normal\Controllers'], function ($api) {
     $api->get('/', function () {
         return ['status' => 'NORMAL API OK!'];
     });
