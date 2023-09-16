@@ -252,12 +252,6 @@ class CartController extends BaseController
         }
 
     }
-    public function getCoupons(){
-        return $this->responseSuccess(null,Coupon::all());
-    }
-    public function getVouchers(){
-        return $this->responseSuccess(null,Voucher::all());
-    }
     public function removeCartDetail($id,Request $request){
         // $cart = Cart::withTrashed()->find($id)->restore();
         $userID = SERVICE::getCurrentUserId();
@@ -324,6 +318,12 @@ class CartController extends BaseController
         return new CartResource($cart);
     }
 
+    public function getCoupons(){
+        return $this->responseSuccess(null,Coupon::all());
+    }
+    public function getVouchers(){
+        return $this->responseSuccess(null,Voucher::all());
+    }
     // Thêm coupon vào giỏ hàng
     public function addCoupon(Request $request)
     {
