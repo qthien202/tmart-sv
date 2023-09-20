@@ -62,4 +62,7 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // Price Detail
     require __DIR__. '/price_detail.php';
+
+    // Order
+    require __DIR__. '/order.php';
 });
