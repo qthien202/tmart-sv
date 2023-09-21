@@ -23,8 +23,8 @@ class SessionController extends BaseController
         // $guest = new Session();
         // $guest->session_id=$sessionID ;
         // $guest->save();
-        return response()->json(["session_id"=>$sessionID],200);
-        // $this->responseSuccess(null,$sessionID);        
+        // return response()->json(["session_id"=>$sessionID],200);
+        return $this->responseSuccess(null,["session_id"=>$sessionID]);        
     }
     public function removeSession(Request $request){
         $this->validate($request,[
