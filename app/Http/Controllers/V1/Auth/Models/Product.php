@@ -67,8 +67,40 @@ class Product extends Model
                 $query->where('category_id', $cateID);
             }
         }
-        if (isset($params['price'])) {
-            $query->where('price', $params['price']);
+        // if (isset($params['price'])) {//array [min,max]
+        //     $query->whereBetween('price', $params['price']);
+        // }
+        if (isset($params['price'])) {//array [1,2,3,6]
+            $query->where(function ($query) use ($params){
+                // $query->where("price",">=","0");
+                // Dưới 2 triệu
+                if (in_array("2",$params['price'])) {
+                    $query->orWhereBetween('price', [0,2000000]);
+                }
+                // 2 - 4 triệu
+                if (in_array("2-4",$params['price'])) {
+                    $query->orWhereBetween('price', [2000000,4000000]);
+                }
+                // 4 - 7 triệu
+                if (in_array("4-7",$params['price'])) {
+                    $query->orWhereBetween('price', [4000000,7000000]);
+                }
+                // 7 - 13 triệu
+                if (in_array("7-13",$params['price'])) {
+                    $query->orWhereBetween('price', [7000000,13000000]);
+                }
+                // 13 - 20 triệu
+                if (in_array("13-20",$params['price'])) {
+                    $query->orWhereBetween('price', [13000000,20000000]);
+                }
+                // trên 20 triệu
+                if (in_array("20",$params['price'])) {
+                    $query->orWhere('price',">", 20000000);
+                }
+            });
+            
+           
+            
         }
         if (isset($params['slug'])) {
             $query->where('slug', $params['slug']);
@@ -79,14 +111,14 @@ class Product extends Model
         if (isset($params['description'])) {
             $query->where('description', $params['description']);
         }
-        if (isset($params['category_id'])) {
+        if (isset($params['category_id'])) {//array
             $query->whereIn('category_id', $params['category_id']);
         }
         if (isset($params['stock_quantity'])) {
             $query->where('stock_quantity', $params['stock_quantity']);
         }
-        if (isset($params['manufacturer_id'])) {
-            $query->where('manufacturer_id', $params['manufacturer_id']);
+        if (isset($params['manufacturer_id'])) {//array
+            $query->whereIn('manufacturer_id', $params['manufacturer_id']);
         }
         if (isset($params['unit_id'])) {
             $query->where('unit_id', $params['unit_id']);
