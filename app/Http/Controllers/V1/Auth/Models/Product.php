@@ -80,7 +80,7 @@ class Product extends Model
             $query->where('description', $params['description']);
         }
         if (isset($params['category_id'])) {
-            $query->where('category_id', $params['category_id']);
+            $query->whereIn('category_id', $params['category_id']);
         }
         if (isset($params['stock_quantity'])) {
             $query->where('stock_quantity', $params['stock_quantity']);
