@@ -120,7 +120,7 @@ class AuthController extends BaseController
     {
         $input                = $request->all();
         (new RegisterValidator)->validate($input);
-        
+
         try {
             DB::beginTransaction();
             $phone = str_replace(" ", "", $input['phone']);
@@ -146,19 +146,19 @@ class AuthController extends BaseController
                 'password'     => password_hash($input['password'], PASSWORD_BCRYPT),
                 'genre'        => array_get($input, 'genre', 'O'),
                 'address'      => array_get($input, 'address', null),
-                'is_active'    => 0,
+                'is_active'    => 1,
             ];
             // Create User
             $user = $this->model->create($param);
             // Send Mail
-            if ($email) {
-                $this->dispatch(new SendMailRegister($email, [
-                    'name'        => $input['name'],
-                    'phone'       => $input['phone'],
-                    'email'       => $input['email'],
-                    'verify_code' => $verify_code,
-                ]));
-            }
+            // if ($email) {
+            //     $this->dispatch(new SendMailRegister($email, [
+            //         'name'        => $input['name'],
+            //         'phone'       => $input['phone'],
+            //         'email'       => $input['email'],
+            //         'verify_code' => $verify_code,
+            //     ]));
+            // }
             DB::commit();
             return response()->json(['status' => Message::get("users.register-success", $user->phone)], 200);
         } catch (QueryException $ex) {
