@@ -60,7 +60,7 @@ class AuthController extends BaseController
 
         (new CMSLoginValidator)->validate($input);
        
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('phone', 'password');
 
         try {
             $token = auth()->attempt($credentials);
@@ -69,8 +69,7 @@ class AuthController extends BaseController
                 return $this->responseError(Message::get("users.admin-login-invalid"), 401);
             }
 
-            $user = User::where(['email' => $input['email']])->first();
-
+            $user = User::where(['phone' => $input['phone']])->first();
             if (empty($user)) {
                 return $this->responseError(Message::get("users.admin-login-invalid"), 401);
             }
@@ -121,7 +120,7 @@ class AuthController extends BaseController
     {
         $input                = $request->all();
         (new RegisterValidator)->validate($input);
-
+        
         try {
             DB::beginTransaction();
             $phone = str_replace(" ", "", $input['phone']);

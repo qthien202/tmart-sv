@@ -15,16 +15,16 @@ class RegisterValidator extends ValidatorBase
     protected function rules()
     {
         return [
-            'device_id'   => 'required',
-            'device_type' => 'required',
-            'phone'       => 'required|min:10|max:10|guest_unique_create_company:users,phone',
+            // 'device_id'   => 'required',
+            // 'device_type' => 'required',
+            'phone'       => 'required|min:10|max:10',
             'name'        => 'required|min:5|max:40',
-            'email'       => 'required|guest_unique_create_company:users,email|email',
-            'city_id'     => 'required|exists:cities,id',
-            'district_id' => 'exists:districts,id',
-            'ward_id'     => 'exists:wards,id',
+            'email'       => 'required',
+            // 'city_id'     => 'required|exists:cities,id',
+            // 'district_id' => 'exists:districts,id',
+            // 'ward_id'     => 'exists:wards,id',
             'password'    => 'required|min:8',
-            'company_id'  => 'required|exists:companies,id,deleted_at,NULL'
+            // 'company_id'  => 'required|exists:companies,id,deleted_at,NULL'
         ];
     }
 
@@ -32,14 +32,14 @@ class RegisterValidator extends ValidatorBase
     {
         return [
             'phone'       => Message::get("phone"),
-            'device_id'   => Message::get("device_id"),
-            'device_type' => Message::get("device_type"),
+            // 'device_id'   => Message::get("device_id"),
+            // 'device_type' => Message::get("device_type"),
             'name'        => Message::get("name"),
-            'city_id'     => Message::get("city_id"),
-            'district_id' => Message::get("district_id"),
-            'ward_id'     => Message::get("ward_id"),
+            // 'city_id'     => Message::get("city_id"),
+            // 'district_id' => Message::get("district_id"),
+            // 'ward_id'     => Message::get("ward_id"),
             'password'    => Message::get("password"),
-            'company_id'  => Message::get("company_id"),
+            // 'company_id'  => Message::get("company_id"),
         ];
     }
 }

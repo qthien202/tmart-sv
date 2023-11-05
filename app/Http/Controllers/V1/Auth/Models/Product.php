@@ -71,11 +71,21 @@ class Product extends Model
         //     $query->whereBetween('price', $params['price']);
         // }
         if (isset($params['price'])) {//array [1,2,3,6]
+            // $query->whereHas('priceDetails', function (Builder $query){
+            //     $query->where('price', $params['price']);
+            // });
             $query->where(function ($query) use ($params){
                 // $query->where("price",">=","0");
+                 
+
                 // Dưới 2 triệu
                 if (in_array("2",$params['price'])) {
-                    $query->orWhereBetween('price', [0,2000000]);
+                    // $query->orWhereBetween('price', [0,2000000]);
+                    // $query->whereHas('prices', function ($q) use ($minPrice, $maxPrice, $now) {
+                    //     $q->whereBetween('price', [$minPrice, $maxPrice])
+                    //       ->where('expiry_date', '>', $now);
+                    // });
+                    dd(Price::searchProductPrice(0,2000000));
                 }
                 // 2 - 4 triệu
                 if (in_array("2-4",$params['price'])) {

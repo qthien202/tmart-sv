@@ -65,4 +65,10 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // Order
     require __DIR__. '/order.php';
+
+    // Shipping company
+    require __DIR__ . '/shipping_company.php';
+
+    // Shipping company
+    require __DIR__ . '/addressbook.php';
 });

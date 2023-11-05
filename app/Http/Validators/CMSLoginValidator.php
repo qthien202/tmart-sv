@@ -16,7 +16,7 @@ class CMSLoginValidator extends ValidatorBase
     protected function rules()
     {
         return [
-            'email'       => 'required|exists:users,email,deleted_at,NULL',
+            'phone'       => 'required|exists:users,phone,deleted_at,NULL',
             'password'    => 'required',
             'device_type' => 'in:DESKTOP,TABLET,PHONE,ANDROID,IOS,UNKNOWN',
             'device_id'   => 'nullable|max:50'

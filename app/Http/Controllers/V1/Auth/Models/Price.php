@@ -62,6 +62,20 @@ class Price extends Model
 
 
     }
+    public static function searchProductPrice($min,$max){
+        // Hết hạn -> xóa => ưu tiên bảng giá thêm sau
+        $deletePrice = Price::whereDate("expire_date","<",Carbon::now());
+        PriceDetail::where("price_id",$deletePrice->value("id"))->delete();
+        $deletePrice->delete();
+
+        //orWhereBetween
+        dd(Product::join("price_details","products.id","=","price_details.product_id")->select("final_price")->addSelect(DB::raw('COALESCE(price_details.price, products.price) AS final_price'))->get());//?->whereBetween('price',[$min,$max])->values('product_id');
+        if (empty($productId)) {
+            Product::whereBetween('price',[$min,$max])->values('id');
+        }
+        $productId = PriceDetail::whereNull("deleted_at")->whereBetween('price',[$min,$max])->values('product_id');
+        return $productId;
+    }
 
     // Create Price Table
     public static function createPrice($price, $data){

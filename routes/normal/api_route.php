@@ -91,6 +91,8 @@ $api->group(['prefix' => 'api/normal', 'middleware' => ['cors'], 'namespace' => 
     require __DIR__ . '/session.php';
     // Cart
     require __DIR__ . '/cart.php';
+    // Shipping company
+    require __DIR__ . '/shipping_company.php';
 
     
 });
