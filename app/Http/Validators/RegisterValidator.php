@@ -19,7 +19,7 @@ class RegisterValidator extends ValidatorBase
             // 'device_type' => 'required',
             'phone'       => 'required|min:10|max:10',
             'name'        => 'required|min:5|max:40',
-            'email'       => 'required',
+            'email'       => 'sometimes|required',
             // 'city_id'     => 'required|exists:cities,id',
             // 'district_id' => 'exists:districts,id',
             // 'ward_id'     => 'exists:wards,id',
