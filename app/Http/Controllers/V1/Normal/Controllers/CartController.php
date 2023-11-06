@@ -308,8 +308,9 @@ class CartController extends BaseController
             }
         })->first();
         if (is_null($cart)) {
-            $message = "Không tìm thấy giỏ hàng";
-            return $this->responseError($message);
+            // $message = "Không tìm thấy giỏ hàng";
+            // return $this->responseError($message);
+            return response()->json(["data"=>[]]);
         }
         // Check coupon/voucher hết hạn -> remove khỏi cart
         $handle = new Handle($cart);
