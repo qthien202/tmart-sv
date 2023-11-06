@@ -34,7 +34,7 @@ class Authorize
             throw new AccessDeniedHttpException(Message::get('remote_denied'));
         }
         $this->router = $router;
-        $this->roleId = SERVICE::getCurrentRoleId();
+        // $this->roleId = SERVICE::getCurrentRoleId();
     }
 
     /**

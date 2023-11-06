@@ -12,7 +12,7 @@
 */
 
 // Authorized Group
-$api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize']], function ($api) {
+$api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize',/*'tokenStore'*/]], function ($api) {
 
     $api->options('/{any:.*}', function () {
         return response(['status' => 'success'])

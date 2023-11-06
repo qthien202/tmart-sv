@@ -25,7 +25,7 @@ return [
     | services the application utilizes. Set this in your ".env" file.
     |
     */
-
+    'token_store' => env('TOKEN_STORE'),
     'env' => env('APP_ENV'),
 
     /*

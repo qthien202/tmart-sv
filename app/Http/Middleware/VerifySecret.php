@@ -39,6 +39,17 @@ class VerifySecret
                 ], Response::HTTP_UNAUTHORIZED);
             }
 
+            // For UnAuthorize
+            if (!empty($headers['authorization'][0]) && strlen($headers['authorization'][0]) == 78) {
+                $store_token_input = str_replace("Bearer ", "", $headers['authorization'][0]);
+                // dd(Message::get("V001", "Token"));
+                if ($store_token_input && strlen($store_token_input) == 71) {
+                    if ($store_token_input == env('TOKEN_STORE')) {
+                        return $next($request);
+                    }
+                }
+            }
+
             $token = JWTAuth::getToken();
 
             if (!$token) {
@@ -65,7 +76,6 @@ class VerifySecret
                 'status_code' => Response::HTTP_UNAUTHORIZED,
             ], Response::HTTP_UNAUTHORIZED);
         }
-
         if (!$jws->verify(config('jwt.secret'), config('jwt.algo'))) {
             return response()->json([
                 'message'     => Message::get("token_invalid"),
