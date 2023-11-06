@@ -48,20 +48,24 @@ class Authorize
         if (SERVICE::isAdminUser()) {
             return $next($request);
         }
-        $permissions = [];
-        if (!empty($this->roleId)) {
-            $currentPermissions = RolePermission::with(['permission'])
-                ->where('role_id', $this->roleId)->get()->toArray();
-            $permissions        = array_pluck($currentPermissions, null, 'permission.code');
-        }
-        $action = Arr::get($this->router->getRoutes()[$request->method() . $request->getPathInfo()]['action'], 'action', null);
-
-        if (!$action) {
-            return $next($request);
-        }
-        if (empty($permissions[$action])) {
-            throw new AccessDeniedHttpException(Message::get("no_permission"));
-        }
+        ///////////////////////////// BỎ PERMISSTION
         return $next($request);
+        /////////////////////////////
+
+        // $permissions = [];
+        // if (!empty($this->roleId)) {
+        //     $currentPermissions = RolePermission::with(['permission'])
+        //         ->where('role_id', $this->roleId)->get()->toArray();
+        //     $permissions        = array_pluck($currentPermissions, null, 'permission.code');
+        // }
+        // $action = Arr::get($this->router->getRoutes()[$request->method() . $request->getPathInfo()]['action'], 'action', null);
+
+        // if (!$action) {
+        //     return $next($request);
+        // }
+        // if (empty($permissions[$action])) {
+        //     throw new AccessDeniedHttpException(Message::get("no_permission"));
+        // }
+        // return $next($request);
     }
 }

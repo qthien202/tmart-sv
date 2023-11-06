@@ -1,6 +1,7 @@
 <?php
 $api->get('/get_products', 'ProductController@getProducts');
 $api->post('/create_product', 'ProductController@createProduct');
+// $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->put('/update_product/{id}', 'ProductController@updateProduct');
 $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
