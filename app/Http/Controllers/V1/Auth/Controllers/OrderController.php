@@ -89,7 +89,7 @@ class OrderController extends BaseController
             $order->orderHistories()->create([
                 'user_id' => $userID,
                 'order_id' => $order->id,
-                'status_code' => $order->status_code,
+                'status_id' => $order->status_code,
                 'note' => $order->note,
             ]);
             $cart->delete();

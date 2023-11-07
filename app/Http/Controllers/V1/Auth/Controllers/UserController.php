@@ -119,13 +119,13 @@ class UserController extends BaseController
     {
         $input      = $request->all();
         $user_id    = SERVICE::getCurrentUserId();
-        $company_id = SERVICE::getCurrentCompanyId();
+        // $company_id = SERVICE::getCurrentCompanyId();
         $userChangePasswordValidator->validate($input);
         try {
             DB::beginTransaction();
             $user = User::where([
                 'id'         => $user_id,
-                'company_id' => $company_id
+                // 'company_id' => $company_id
             ])->first();
             // Change password
             if (!password_verify($input['password'], $user->password)) {

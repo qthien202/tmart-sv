@@ -23,7 +23,7 @@ class Order extends Model
         'order_number',
         'info_total_amount',
         'status_code',
-        'shipping_companie_id',
+        'shipping_company_id',
         'name',
         'phone',
         'payment_uid',
