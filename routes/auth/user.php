@@ -26,6 +26,11 @@ $api->put('/users/change-password', [
     'uses'   => 'UserController@changePassword',
 ]);
 
+$api->post('/user/check-phone', [
+    'action' => 'CHECK-USER-PHONE',
+    'uses'   => 'UserController@confirmPhone',
+]);
+
 $api->post('/user', [
     'action' => 'UPDATE-USER',
     'uses'   => 'UserController@create',

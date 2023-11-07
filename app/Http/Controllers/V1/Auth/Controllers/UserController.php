@@ -170,4 +170,16 @@ class UserController extends BaseController
             return false;
         }
     }
+    public function confirmPhone(Request $request){
+        $this->validate($request,[
+            "phone" => "required"
+        ]);
+        $userPhoneCheck = User::where('phone',$request->phone)->exists();
+        if (empty($userPhoneCheck)) {
+            return "false";
+        }
+        else{
+            return "true";
+        }
+    }
 }
