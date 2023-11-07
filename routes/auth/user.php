@@ -21,6 +21,11 @@ $api->get('/user/{id:[0-9]+}', [
     'uses'   => 'UserController@view',
 ]);
 
+$api->get('/view-user', [
+    'action' => 'VIEW-USER',
+    'uses'   => 'UserController@viewUserFromToken',
+]);
+
 $api->put('/users/change-password', [
     'action' => 'UPDATE-USER-PASSWORD',
     'uses'   => 'UserController@changePassword',

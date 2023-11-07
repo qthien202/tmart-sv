@@ -58,6 +58,17 @@ class UserController extends BaseController
         return new UserResource($result);
     }
 
+    public function viewUserFromToken()
+    {
+        $userID = SERVICE::getCurrentUserId();
+        $result = User::find($userID);
+        if (empty($result)) {
+            return ['data' => null];
+        }
+        Log::view($this->model->getTable());
+        return new UserResource($result);
+    }
+
     /**
      * @param Request $request
      * @return \Dingo\Api\Http\Response|\Illuminate\Http\JsonResponse
