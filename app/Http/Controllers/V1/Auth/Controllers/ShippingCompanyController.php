@@ -88,8 +88,8 @@ class ShippingCompanyController extends BaseController
         $fromProvinceName = "Cần Thơ";
 
         // Thông tin người nhận
-        $toName = $userInfo->full_name;
-        $toPhone = $userInfo->phone;
+        $toName = $cart->name;
+        $toPhone = $cart->phone;
         $toAddress = $cart->address;
         $toWardName = $cart->ward_name;
         $toDistrictName = $cart->district_name;

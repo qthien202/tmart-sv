@@ -71,4 +71,7 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // Shipping company
     require __DIR__ . '/addressbook.php';
+
+    // VNPAY
+    require __DIR__ . '/vnpay.php';
 });

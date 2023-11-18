@@ -26,6 +26,8 @@ class OrderResource extends BaseResource
                     return [
                         'id' => $item->id,
                         'product_id' => $item->product_id,
+                        'product_name' => $item->product?->product_name,
+                        'thumpnail_url' => $item->product?->thumpnail_url,
                         'quantity' => $item->quantity,
                         'price' => $item->price,
                         'option' => $item->option,
