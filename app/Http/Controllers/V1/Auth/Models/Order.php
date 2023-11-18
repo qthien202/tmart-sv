@@ -59,6 +59,7 @@ class Order extends Model
         if (isset($params['name'])) {
             $query->where('name', $params['name']);
         }
+        $query->orderByDesc('created_at');
         return $query->paginate(Arr::get($params,'perPage', 10));
     }
 
