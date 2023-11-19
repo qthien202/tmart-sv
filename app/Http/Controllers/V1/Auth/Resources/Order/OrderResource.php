@@ -30,6 +30,7 @@ class OrderResource extends BaseResource
                         'thumpnail_url' => $item->product?->thumpnail_url,
                         'quantity' => $item->quantity,
                         'price' => $item->price,
+                        'price_formated' => number_format($item->price, 0, ',', '.') . ' đ',
                         'option' => $item->option,
                         'subtotal' => $item->subtotal,
                     ];
