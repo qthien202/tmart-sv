@@ -33,6 +33,7 @@ class OrderResource extends BaseResource
                         'price_formated' => number_format($item->price, 0, ',', '.') . ' đ',
                         'option' => $item->option,
                         'subtotal' => $item->subtotal,
+                        'subtotal_formated' => number_format($item->subtotal, 0, ',', '.') . ' đ',
                     ];
                 }),
                 'order_number' => $this->order_number,
