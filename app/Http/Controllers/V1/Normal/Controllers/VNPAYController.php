@@ -93,10 +93,9 @@ class VNPAYController extends BaseController
         // $orderId = $inputData['vnp_TxnRef'];
 
         
-
-
         // $order = Order::find($orderId);
         // $orderPayment = $order->orderPayments;
+        // dd($orderPayment["payment_status"] != NULL && $orderPayment["payment_status"] == "Chờ xác nhận");
         // $orderPayment["payment_status"] = "test"; 
         // $orderPayment->save();
         // $returnData['RspCode'] = '00';
@@ -172,7 +171,7 @@ class VNPAYController extends BaseController
                     if($orderPayment["amount"] == $vnp_Amount) //Kiểm tra số tiền thanh toán của giao dịch: giả sử số tiền kiểm tra là đúng. //$order["Amount"] == $vnp_Amount
                     // if(true) //Giả sử đúng giá tiền
                     {
-                        if ($orderPayment["payment_status"] != NULL && $order["payment_status"] == "Chờ xác nhận") {
+                        if ($orderPayment["payment_status"] != NULL && $orderPayment["payment_status"] == "Chờ xác nhận") {
                             if ($inputData['vnp_ResponseCode'] == '00' || $inputData['vnp_TransactionStatus'] == '00') {
                                 $Status = 1;
                                 $orderPayment["paydate"] = $inputData["vnp_PayDate"];
@@ -214,10 +213,11 @@ class VNPAYController extends BaseController
             $returnData['Message'] = 'Unknow error';
         }
 
-        $order = Order::find($orderId);
-        $orderPayment = $order->orderPayments;
-        $orderPayment["payment_status"] = $returnData['Message']; 
-        $orderPayment->save();
+        // $order = Order::find($orderId);
+        // $orderPayment = $order->orderPayments;
+        // $orderPayment["payment_status"] = $returnData['Message']; 
+        // $orderPayment->save();
+        
         //Trả lại VNPAY theo định dạng JSON
         echo json_encode($returnData);
     }
