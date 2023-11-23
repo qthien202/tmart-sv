@@ -9,6 +9,7 @@ namespace App\Http\Controllers\V1\Auth\Controllers;
 
 use App\Http\Controllers\V1\Auth\Models\Order;
 use App\Http\Controllers\V1\Auth\Models\OrderDetail;
+use App\Http\Controllers\V1\Auth\Models\OrderPayment;
 use App\Http\Controllers\V1\Auth\Models\OrderStatus;
 use App\Http\Controllers\V1\Auth\Resources\Order\OrderCollection;
 use App\Http\Controllers\V1\Auth\Resources\Order\OrderResource;
@@ -45,7 +46,7 @@ class OrderController extends BaseController
             "note" => "string",
             "shipping_address" => "sometimes|required|string",
             "billing_address" => "required|string",
-            "payment_uid" => "required"
+            // "payment_uid" => "required"
         ]);
         $cart = Cart::find($request->cart_id);
         if (is_null($cart)) {
@@ -77,6 +78,16 @@ class OrderController extends BaseController
                 'order_date' => Carbon::now(),
     
             ]);
+            $total = array_values(array_filter($cart->info,function($e){
+                return $e['code']=="total";
+            }))[0]??null;
+            $total = $total['value'];
+            $orderPayment = new OrderPayment();
+            $orderPayment->order_id = $order->id;
+            $orderPayment->amount = $total;
+            $orderPayment->payment_status = "pending";
+            $orderPayment->payment_method = $request->payment;
+            $orderPayment->save();
             $cart->cartDetails->map(function ($item) use (&$order){
                 $order->orderDetails()->create([
                     'product_id' => $item->product_id,

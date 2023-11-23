@@ -71,4 +71,7 @@ class Order extends Model
         return $this->hasOne(OrderHistory::class);
         // return $this->hasOne(OrderDetail::class,'order_id','id');
     }
+    public function orderPayments(){
+        return $this->hasOne(OrderPayment::class);
+    }
 }
