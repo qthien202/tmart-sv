@@ -89,14 +89,24 @@ class VNPAYController extends BaseController
     // }
 
     public function vnpayIPNReturn(Request $rq){
-        // $inputData = $rq->all();
-        // $orderId = $inputData['vnp_TxnRef'];
+        $inputData = $rq->all();
+        $orderId = $inputData['vnp_TxnRef'];
 
-        // $order = Order::find($orderId);
-        // $orderPayment = $order->orderPayments;
-        // $orderPayment["payment_status"] = "test"; 
-        // $orderPayment->save();
+        
+
+
+        $order = Order::find($orderId);
+        $orderPayment = $order->orderPayments;
+        $orderPayment["payment_status"] = "test"; 
+        $orderPayment->save();
+        $returnData['RspCode'] = '00';
+        $returnData['Message'] = 'Confirm Success';
+        echo json_encode($returnData);
+        return;
         // dd($orderPayment['payment_status']);
+        // $vnp_Amount = $inputData['vnp_Amount']/100;
+        // dd($orderPayment["amount"] == $vnp_Amount);
+
 
         /* Payment Notify
         * IPN URL: Ghi nhận kết quả thanh toán từ VNPAY
