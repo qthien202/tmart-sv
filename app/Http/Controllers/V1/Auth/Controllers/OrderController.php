@@ -78,6 +78,7 @@ class OrderController extends BaseController
                 'order_date' => Carbon::now(),
     
             ]);
+            
             $total = array_values(array_filter($cart->info,function($e){
                 return $e['code']=="total";
             }))[0]??null;
@@ -85,9 +86,17 @@ class OrderController extends BaseController
             $orderPayment = new OrderPayment();
             $orderPayment->order_id = $order->id;
             $orderPayment->amount = $total;
-            $orderPayment->payment_status = "pending";
-            $orderPayment->payment_method = $request->payment;
+            if ($request->payment == "cod") {
+                $orderPayment->payment_method = "Thanh toán COD";
+                $orderPayment->payment_status = "Chờ xác nhận";
+
+            }
+            if ($request->payment == "vnpay") {
+                $orderPayment->payment_method = "Thanh toán bằng VNPAY";
+                $orderPayment->payment_status = "Chờ xác nhận";
+            }
             $orderPayment->save();
+
             $cart->cartDetails->map(function ($item) use (&$order){
                 $order->orderDetails()->create([
                     'product_id' => $item->product_id,
