@@ -160,8 +160,8 @@ class ShippingCompanyController extends BaseController
                 $shippingCompany->cost = $totalFee;
                 $shippingCompany->estimated_shipping_time = date('Y-m-d H:i:s', strtotime($expectedDeliveryTime));
                 $shippingCompany->save();
-                
-                return $this->responseSuccess("Tạo đơn thành công");
+                $result["data"]["id"] = $shippingCompany->id;
+                return $result;
             }
         }
         
