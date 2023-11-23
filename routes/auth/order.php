@@ -1,6 +1,7 @@
 <?php
 // Order
 $api->get('/get_order', 'OrderController@getOrders');
+$api->get('/get_order_by_user_id', 'OrderController@getOrderByUserID');
 $api->post('/confirm_order', 'OrderController@confirmOrder');
 $api->get('/get_order_by_id/{id}', 'OrderController@getOrderById');
 $api->put('/update_order_status/{id}', 'OrderController@updateOrderStatus');

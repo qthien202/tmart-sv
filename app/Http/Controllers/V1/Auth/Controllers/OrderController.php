@@ -29,6 +29,13 @@ class OrderController extends BaseController
         $this->model = new Order();
     }
 
+    public function getOrderByUserID(Request $request){
+        $input = $request->all();
+        $input["user_id"] = SERVICE::getCurrentUserId();
+        $order = $this->model->search($input);
+        return new OrderCollection($order);
+    }
+
     public function getOrders(Request $request){
         $order = $this->model->search($request->all());
         return new OrderCollection($order);
