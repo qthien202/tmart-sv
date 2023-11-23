@@ -94,5 +94,5 @@ $api->group(['prefix' => 'api/normal', 'middleware' => ['cors'], 'namespace' => 
     // Shipping company
     require __DIR__ . '/shipping_company.php';
 
-    
+    require __DIR__ . '/vnpay.php';
 });
