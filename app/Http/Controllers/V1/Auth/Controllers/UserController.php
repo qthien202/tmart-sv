@@ -69,6 +69,26 @@ class UserController extends BaseController
         return new UserResource($result);
     }
 
+    public function updateUserFromToken(Request $request)
+    {
+        $userID = SERVICE::getCurrentUserId();
+
+        $input       = $request->all();
+        $input['id'] = $userID;
+        
+        try {
+            DB::beginTransaction();
+            $result = $this->model->upsert($input);
+            Log::update($this->model->getTable(), $result->code);
+            DB::commit();
+            return $this->responseSuccess("Thành công");
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            $response = SERVICE_Error::handle($ex);
+            return $this->responseError($response['message']);
+        }
+    }
+
     /**
      * @param Request $request
      * @return \Dingo\Api\Http\Response|\Illuminate\Http\JsonResponse

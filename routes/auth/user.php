@@ -41,6 +41,11 @@ $api->post('/user', [
     'uses'   => 'UserController@create',
 ]);
 
+$api->put('/update-user', [
+    'action' => 'UPDATE-USER',
+    'uses'   => 'UserController@updateUserFromToken',
+]);
+
 $api->put('/user/{id:[0-9]+}', [
     'action' => 'UPDATE-USER',
     'uses'   => 'UserController@update',

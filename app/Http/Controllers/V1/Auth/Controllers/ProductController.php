@@ -109,12 +109,15 @@ class ProductController extends BaseController
         ]);
         $userId = SERVICE::getCurrentUserId();
         try {
+            DB::beginTransaction();
             $favorite = new Favorite();
             $favorite->user_id = $userId;
             $favorite->product_id = $request->product_id;
             $favorite->save();
+            DB::commit();
             return $this->responseSuccess("Đã thêm sản phẩm vào yêu thích");
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $this->responseError("Thêm thất bại: Error: ".$th->getMessage());
         }
 
@@ -126,13 +129,16 @@ class ProductController extends BaseController
         ]);
         $userId = SERVICE::getCurrentUserId();
         try {
+            DB::beginTransaction();
             $favorite = Favorite::where('user_id',$userId)->where("product_id",$request->product_id)->first();
             if (empty($favorite)) {
                 return $this->responseError("Không tìm thấy!");
             }
             $result = $favorite->delete();
+            DB::commit();
             return $this->responseSuccess("Đã xóa sản phẩm yêu thích");
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $this->responseError("Xóa thất bại: Error: ".$th->getMessage());
         }
     }
