@@ -21,6 +21,7 @@ class AddressBook extends Model
         'user_id',
         'full_name',
         'phone',
+        'is_default',
         'ward_id',
         'ward_name', 
         'district_id', 

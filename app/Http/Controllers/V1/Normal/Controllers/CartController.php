@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\ToArray;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Foundation\Handle;
+use App\Http\Controllers\V1\Auth\Models\AddressBook;
 use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Controllers\V1\Normal\Models\Condition;
 use App\Http\Controllers\V1\Normal\Models\Voucher;
@@ -81,6 +82,19 @@ class CartController extends BaseController
                     $cart->user_id = $userID;
                 } else {
                     $cart->guest_id = $guestID;
+                }
+                // Thêm địa chỉ vào giỏ mới
+                $addressBook = AddressBook::where("user_id",$userID)->where("is_default",1)->first();
+                if (!empty($addressBook)) {
+                    $cart->name = $addressBook->full_name;
+                    $cart->phone = $addressBook->phone;
+                    $cart->ward_id = $addressBook->ward_id;
+                    $cart->ward_name = $addressBook->ward_name;
+                    $cart->district_id = $addressBook->district_id;
+                    $cart->district_name = $addressBook->district_name;
+                    $cart->city_id = $addressBook->city_id;
+                    $cart->city_name = $addressBook->city_name;
+                    $cart->address = $addressBook->full_address;
                 }
                 $cart->save();
             };

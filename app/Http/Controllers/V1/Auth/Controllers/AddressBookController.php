@@ -34,6 +34,47 @@ class AddressBookController extends BaseController
         return new AddressBookCollection($price);
     }
 
+    public function setDefault(Request $request){
+        $this->validate($request,[
+            'id' => 'required|integer',
+        ]);
+        $userID = SERVICE::getCurrentUserId();
+        $addressBookCheck = AddressBook::where("user_id",$userID)->where("id",$request->id)->exists();
+        if (!$addressBookCheck) {
+            return $this->responseError("Bạn không có quyền (AddressBook $request->id không phải của user $userID)");
+        }
+        try {
+            DB::beginTransaction();
+            $cart = Cart::where("user_id",$userID)->first();
+            $addressBook = AddressBook::where("user_id",$userID)->where("is_default",1)->first();
+            if (!empty($addressBook)) {
+                $addressBook->is_default = 0;
+                $addressBook->save();
+            }
+            $addressBook = AddressBook::find($request->id);
+            $addressBook->is_default = 1;
+            $addressBook->save();
+            
+            if (!empty($cart)) {
+                $cart->name = $addressBook->full_name;
+                $cart->phone = $addressBook->phone;
+                $cart->ward_id = $addressBook->ward_id;
+                $cart->ward_name = $addressBook->ward_name;
+                $cart->district_id = $addressBook->district_id;
+                $cart->district_name = $addressBook->district_name;
+                $cart->city_id = $addressBook->city_id;
+                $cart->city_name = $addressBook->city_name;
+                $cart->address = $addressBook->full_address;
+                $cart->save();
+            }
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->responseError("Lỗi: ".$th->getMessage());
+        }
+        
+
+    }
 
     public function createAddressBook(Request $request)
     {
