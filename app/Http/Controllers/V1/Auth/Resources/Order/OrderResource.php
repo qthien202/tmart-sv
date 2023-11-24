@@ -43,6 +43,7 @@ class OrderResource extends BaseResource
                 'name' => $this->name,
                 'phone' => $this->phone,
                 'payment_uid' => $this->payment_uid,
+                'payment' => $this->orderPayments,
                 'coupon_code' => $this->coupon_code,
                 'voucher_code' => $this->voucher_code,
                 'note' => $this->note,
