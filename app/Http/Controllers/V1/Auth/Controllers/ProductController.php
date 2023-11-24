@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\V1\Auth\Controllers;
 
 use App\Category;
+use App\Http\Controllers\V1\Auth\Models\Favorite;
 use Illuminate\Http\Request;
 use App\Http\Controllers\V1\Auth\Models\Product;
+use App\Http\Controllers\V1\Auth\Resources\Favorite\FavoriteCollection;
 use App\Http\Controllers\V1\Auth\Resources\Product\ProductCollection;
 use App\Http\Controllers\V1\Auth\Resources\Product\ProductResource;
+use App\SERVICE;
 
 class ProductController extends BaseController
 {
@@ -98,6 +101,45 @@ class ProductController extends BaseController
     public function getProductByCategoryId($id){
         $product = Product::where("category_id",$id)->get();
         return new ProductCollection($product);
+    }
+
+    public function addToFavorite(Request $request){
+        $this->validate($request,[
+            "product_id" => "required|integer|exists:products,id",
+        ]);
+        $userId = SERVICE::getCurrentUserId();
+        try {
+            $favorite = new Favorite();
+            $favorite->user_id = $userId;
+            $favorite->product_id = $request->product_id;
+            $favorite->save();
+            return $this->responseSuccess("Đã thêm sản phẩm vào yêu thích");
+        } catch (\Throwable $th) {
+            return $this->responseError("Thêm thất bại: Error: ".$th->getMessage());
+        }
+
+    }
+
+    public function removeProductFromFavorites(Request $request){
+        $this->validate($request,[
+            "product_id" => "required|integer|exists:products,id",
+        ]);
+        $userId = SERVICE::getCurrentUserId();
+        try {
+            $favorite = Favorite::where('user_id',$userId)->where("product_id",$request->product_id)->first();
+            if (empty($favorite)) {
+                return $this->responseError("Không tìm thấy!");
+            }
+            $result = $favorite->delete();
+            return $this->responseSuccess("Đã xóa sản phẩm yêu thích");
+        } catch (\Throwable $th) {
+            return $this->responseError("Xóa thất bại: Error: ".$th->getMessage());
+        }
+    }
+
+    public function getFavoriteProducts(Request $request){
+        $favorite = Favorite::search($request->all());
+        return new FavoriteCollection($favorite);
     }
 
     public function updateProduct(Request $request, $id)

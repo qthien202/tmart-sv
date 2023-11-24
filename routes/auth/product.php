@@ -1,5 +1,8 @@
 <?php
 $api->get('/get_products', 'ProductController@getProducts');
+$api->get('/add_to_favorite', 'ProductController@addToFavorite');
+$api->get('/remove_product_from_favorites', 'ProductController@removeProductFromFavorites');
+$api->get('/get_favorite_product', 'ProductController@getFavoriteProducts');
 $api->post('/create_product', 'ProductController@createProduct');
 // $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');

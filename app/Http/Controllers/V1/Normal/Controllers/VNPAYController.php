@@ -217,7 +217,7 @@ class VNPAYController extends BaseController
         // $orderPayment = $order->orderPayments;
         // $orderPayment["payment_status"] = $returnData['Message']; 
         // $orderPayment->save();
-        
+
         //Trả lại VNPAY theo định dạng JSON
         echo json_encode($returnData);
     }
@@ -256,10 +256,8 @@ class VNPAYController extends BaseController
         $hashData = "";
         foreach ($inputData as $key => $value) {
             if ($i == 1) {
-                echo $hashData;
                 $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
             } else {
-                echo $hashData;
                 $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
                 $i = 1;
             }
@@ -268,13 +266,13 @@ class VNPAYController extends BaseController
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
         if ($secureHash == $vnp_SecureHash) {
             if ($_GET['vnp_ResponseCode'] == '00') {
-                echo "GD Thanh cong";
+                return $this->responseSuccess("GD Thanh cong");
             } 
             else {
-                echo "GD Khong thanh cong";
+                return $this->responseError("GD Khong thanh cong");
                 }
         } else {
-            echo "Chu ky khong hop le";
+            return $this->responseError("Chu ky khong hop le");
             }
 		
     }
