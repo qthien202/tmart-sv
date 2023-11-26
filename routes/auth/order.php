@@ -6,6 +6,7 @@ $api->post('/confirm_order', 'OrderController@confirmOrder');
 $api->get('/get_order_by_id/{id}', 'OrderController@getOrderById');
 $api->put('/update_order_status/{id}', 'OrderController@updateOrderStatus');
 $api->put('/update_order/{id}', 'OrderController@updateOrder');
+$api->put('/cancel_order/{id}', 'OrderController@cancelOrder');
 $api->put('/update_order_detail/{id}', 'OrderController@updateOrderDetail');
 $api->delete('/remove_order/{id}', 'OrderController@removeOrder');
 

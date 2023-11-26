@@ -15,6 +15,7 @@ use App\Http\Controllers\V1\Auth\Resources\Order\OrderCollection;
 use App\Http\Controllers\V1\Auth\Resources\Order\OrderResource;
 use App\Http\Controllers\V1\Normal\Models\Cart;
 use App\SERVICE;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -291,9 +292,27 @@ class OrderController extends BaseController
     // }
 
     // Hủy đơn hàng (set status = cancel)
-    // public function cancelOrder(Request $request, $id){
-    //     $order = Order::find($id);
-    //     $order->status_code = "cancelled";
-    // }
+    public function cancelOrder($id){
+        // $this->validate($request,[
+        //     "id" => "required"
+        // ]);
+        $order = Order::find($id);
+        $userID = SERVICE::getCurrentUserId();
+        if (($order->user_id != $userID)) {
+            return $this->responseError("Bạn không có quyền hủy đơn này");
+        }
+
+        if (empty($order)) {
+            return $this->responseError("Không tìm thấy đơn hàng");
+        }
+        try {
+            $order->status_code = "cancelled";
+            $order->save();
+            return $this->responseSuccess("Hủy thành công");
+        } catch (\Throwable $th) {
+            return $this->responseSuccess("Hủy thất bại, error: ",$th->getMessage());
+        }
+        
+    }
 
 }
