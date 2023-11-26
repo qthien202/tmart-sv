@@ -215,36 +215,31 @@ class UserController extends BaseController
     }
     public function uploadAvatar(Request $request)
     {
-    // Kiểm tra xem tệp đã được tải lên hay chưa
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $domain = "https://tmart.tuanthanhdev.id.vn";
-        $imagePath = $domain.'/uploads/' . $imageName;
-        // Lưu tệp vào thư mục lưu trữ
-        $image->move(public_path('uploads'), $imageName);
+        $userId = SERVICE::getCurrentUserId();
+        // $userId = auth()->id();
+        // Kiểm tra đuôi
+        // Kiểm tra xem tệp đã được tải lên hay chưa
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $domain = "https://tmart.tuanthanhdev.id.vn";
+            $imagePath = $domain.'/uploads/' . $imageName;
+            // Lưu tệp vào thư mục lưu trữ
+            $image->move(public_path('uploads'), $imageName);
 
-        // Sử dụng Query Builder để lưu thông tin về hình ảnh vào cơ sở dữ liệu
-        
-        $avatar = DB::table("users")->where('id',auth()->id())->update([
-            'avatar'=>$imagePath
-        ]);
-        if($avatar){
-            return response()->json([
-                "status"=>200,
-                "message"=>"Cập nhật ảnh đại diện thành công"
-            ],200);
+            $avatar = User::find($userId)->update([
+                'avatar' => $imagePath
+            ]);
+            // $avatar = DB::table("users")->where('id',auth()->id())->update([
+            //     'avatar'=>$imagePath
+            // ]);
+            if($avatar){
+                return $this->responseSuccess("Cập nhật ảnh đại diện thành công");
+            }
+            else{
+                return $this->responseError("Không cập nhật được ảnh đại diện");
+            }
         }
-        else{
-            return response()->json([
-                "status"=>400,
-                'error' => [
-                    'message' => "Không thể cập nhật được ảnh đại diện!"
-                ],
-            ],400);
-        }
-    }
-
-    return "Không có tệp nào được tải lên!";
+        return $this->responseError("Không có tệp nào được tải lên!");
     }
 }
