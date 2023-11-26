@@ -80,17 +80,22 @@ class VNPAYController extends BaseController
             $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array('code' => '00'
+        // $returnData = array('code' => '00'
+        //     , 'message' => 'success'
+        //     , 'data' => $vnp_Url);
+        //     // if (isset($_POST['redirect'])) {
+        $returnData = [
+            'code' => '00'
             , 'message' => 'success'
-            , 'data' => $vnp_Url);
-            // if (isset($_POST['redirect'])) {
-            if (false) {
-                header('Location: ' . $vnp_Url);
-                die();
-            } else {
-                echo json_encode($returnData);
-            }
-            // vui lòng tham khảo thêm tại code demo
+            , 'data' => $vnp_Url
+        ];
+        if (false) {
+            header('Location: ' . $vnp_Url);
+            die();
+        } else {
+            return response()->json($returnData);
+        }
+        // vui lòng tham khảo thêm tại code demo
     }
 
     // public function vnpayIPNReturn(Request $rq){
