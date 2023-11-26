@@ -122,7 +122,7 @@ class OrderController extends BaseController
             $cart->delete();
             $cart->cartDetails()->delete();
             DB::commit();
-            return $this->responseSuccess('Thêm thành công');
+            return $this->responseSuccess('Thêm thành công',["order_id"=>$order->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
             return $this->responseError($th->getMessage());
