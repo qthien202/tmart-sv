@@ -56,6 +56,9 @@ class Order extends Model
         if (isset($params['order_number'])) {
             $query->where('order_number', $params['order_number']);
         }
+        if (isset($params['status_code'])) {
+            $query->where('status_code', $params['status_code']);
+        }
         if (isset($params['name'])) {
             $query->where('name', $params['name']);
         }
