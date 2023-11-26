@@ -55,3 +55,8 @@ $api->delete('/user/{id:[0-9]+}', [
     'action' => 'DELETE-USER',
     'uses'   => 'UserController@delete',
 ]);
+
+$api->post('/upload_avatar', [
+    // 'action' => 'DELETE-USER',
+    'uses'   => 'UserController@uploadAvatar',
+]);
