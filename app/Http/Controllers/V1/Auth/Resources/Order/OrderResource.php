@@ -39,6 +39,7 @@ class OrderResource extends BaseResource
                 'order_number' => $this->order_number,
                 'info_total_amount' => $this->info_total_amount,
                 'status_code' => $this->status_code,
+                'status_name' => $this->orderStatus->name,
                 'shipping_company_id' => $this->shipping_companie_id,
                 'name' => $this->name,
                 'phone' => $this->phone,

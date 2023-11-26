@@ -74,4 +74,8 @@ class Order extends Model
     public function orderPayments(){
         return $this->hasOne(OrderPayment::class);
     }
+
+    public function orderStatus(){
+        return $this->hasOne(OrderStatus::class,"code","status_code");
+    }
 }
