@@ -70,48 +70,48 @@ class Product extends Model
         // if (isset($params['price'])) {//array [min,max]
         //     $query->whereBetween('price', $params['price']);
         // }
-        if (isset($params['price'])) {//array [1,2,3,6]
-            // $query->whereHas('priceDetails', function (Builder $query){
-            //     $query->where('price', $params['price']);
-            // });
-            $query->where(function ($query) use ($params){
-                // $query->where("price",">=","0");
+        // if (isset($params['price'])) {//array [1,2,3,6]
+        //     // $query->whereHas('priceDetails', function (Builder $query){
+        //     //     $query->where('price', $params['price']);
+        //     // });
+        //     $query->where(function ($query) use ($params){
+        //         // $query->where("price",">=","0");
                  
 
-                // Dưới 2 triệu
-                if (in_array("2",$params['price'])) {
-                    // $query->orWhereBetween('price', [0,2000000]);
-                    // $query->whereHas('prices', function ($q) use ($minPrice, $maxPrice, $now) {
-                    //     $q->whereBetween('price', [$minPrice, $maxPrice])
-                    //       ->where('expiry_date', '>', $now);
-                    // });
-                    dd(Price::searchProductPrice(0,2000000));
-                }
-                // 2 - 4 triệu
-                if (in_array("2-4",$params['price'])) {
-                    $query->orWhereBetween('price', [2000000,4000000]);
-                }
-                // 4 - 7 triệu
-                if (in_array("4-7",$params['price'])) {
-                    $query->orWhereBetween('price', [4000000,7000000]);
-                }
-                // 7 - 13 triệu
-                if (in_array("7-13",$params['price'])) {
-                    $query->orWhereBetween('price', [7000000,13000000]);
-                }
-                // 13 - 20 triệu
-                if (in_array("13-20",$params['price'])) {
-                    $query->orWhereBetween('price', [13000000,20000000]);
-                }
-                // trên 20 triệu
-                if (in_array("20",$params['price'])) {
-                    $query->orWhere('price',">", 20000000);
-                }
-            });
+        //         // Dưới 2 triệu
+        //         if (in_array("2",$params['price'])) {
+        //             // $query->orWhereBetween('price', [0,2000000]);
+        //             // $query->whereHas('prices', function ($q) use ($minPrice, $maxPrice, $now) {
+        //             //     $q->whereBetween('price', [$minPrice, $maxPrice])
+        //             //       ->where('expiry_date', '>', $now);
+        //             // });
+        //             dd(Price::searchProductPrice(0,2000000));
+        //         }
+        //         // 2 - 4 triệu
+        //         if (in_array("2-4",$params['price'])) {
+        //             $query->orWhereBetween('price', [2000000,4000000]);
+        //         }
+        //         // 4 - 7 triệu
+        //         if (in_array("4-7",$params['price'])) {
+        //             $query->orWhereBetween('price', [4000000,7000000]);
+        //         }
+        //         // 7 - 13 triệu
+        //         if (in_array("7-13",$params['price'])) {
+        //             $query->orWhereBetween('price', [7000000,13000000]);
+        //         }
+        //         // 13 - 20 triệu
+        //         if (in_array("13-20",$params['price'])) {
+        //             $query->orWhereBetween('price', [13000000,20000000]);
+        //         }
+        //         // trên 20 triệu
+        //         if (in_array("20",$params['price'])) {
+        //             $query->orWhere('price',">", 20000000);
+        //         }
+        //     });
             
            
             
-        }
+        // }
         if (isset($params['slug'])) {
             $query->where('slug', $params['slug']);
         }
