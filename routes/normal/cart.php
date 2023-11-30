@@ -1,5 +1,6 @@
 <?php
 $api->post('/add_to_cart', 'CartController@addToCart');
+$api->post('/add_to_product_cart', 'CartController@userAddProductsToCart');
 $api->put('/update_cart/{id}', 'CartController@updateCart');
 $api->delete('/remove_cart/{id}', 'CartController@removeCart');
 $api->delete('/remove_cart_detail/{id}', 'CartController@removeCartDetail');

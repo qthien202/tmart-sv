@@ -116,6 +116,101 @@ class CartController extends BaseController
             return $this->responseError($th->getMessage());
         }
     }
+
+    public function userAddProductsToCart(Request $request)
+    {
+
+        $userID = SERVICE::getCurrentUserId();
+        $this->validate($request, [
+            "guest_session" =>  [Rule::requiredIf(!$userID),"exists:sessions,session_id"],
+            "product_id" => "required|array",
+            "quantity" => "sometimes|array|required|min:1"
+        ], [
+            "guest_session.required" => "Trường guest_session là bắt buộc nếu không có đăng nhập",
+            "guest_session.exists" => "Không tìm thấy Guest",
+            "product_id.required" => "Trường product_id là bắt buộc",
+            "quantity.integer" => "Số lượng phải là số nguyên",
+            "quantity.required" => "Số lượng không được để trống",
+            "product_id.exists" => "ID sản phẩm không tồn tại",
+            "quantity.min" => "Số lượng phải là số lớn hơn 0",
+            "array"=> "Trường :attribute phải là mảng"
+        ]);
+
+        // Cả 2 cùng truyền (có user_id: đã đăng nhập) -> ưu tiên user_id
+        // $checkLogin = auth()->check();
+        $checkLogin = !is_null($userID);
+        // $arrQuantity = !isset($request->quantity) ? 1 : $request->quantity;
+        $arrQuantity = $request->quantity; //array
+        $arrProductID = $request->product_id; //array
+
+        if (count($arrQuantity) != count($arrProductID)) {
+            return $this->responseError("Tham số truyền vào không hợp lệ"); // Số lượng 2 mảng không đều
+        }
+
+        // Thêm giỏ hàng nếu giỏ hàng chưa có
+        $cart = Cart::where("user_id", $userID)->first();
+
+        $act = [];
+        
+        DB::beginTransaction();
+        try {
+            for ($i=0; $i < count($arrProductID); $i++) { 
+                if (!is_null($cart)) { // Nếu có giỏ hàng của người đó -> không tạo thêm giỏ hàng mới
+                    $cartID = $cart->id;
+                    $cartDetail = Cart::find($cartID)->cartDetails->where("product_id", $arrProductID[$i])->first();
+                    if (!is_null($cartDetail)) { // Có tồn tại sản phẩm trong giỏ hàng -> Update số lượng thêm 1
+                        // Set Info
+                        $cartDetail->quantity += $arrQuantity[$i];
+                        $cartDetail->product_name = $cartDetail->product->product_name;
+                        // $cartDetail->total = $cartDetail->product->price * $cartDetail->quantity; //giá lấy mặc định nếu k có biến thể (chưa có bảng biến thể)
+                        $cartDetail->save();
+                        CartDetail::updateTotal($cartDetail->id);
+                        Cart::setInfoCart($cartID);
+                        DB::commit();
+                        continue;
+                        // $act[] = "Cập nhật thành công";
+                        // return $this->responseSuccess("Cập nhật số lượng sản phẩm trong giỏ hàng thành công!");
+                    }
+                } else {
+                    // Không có giỏ hàng của người đó -> tạo giỏ hàng
+                    $cart = new Cart();
+                    $cart->user_id = $userID;
+                    // Thêm địa chỉ vào giỏ mới
+                    $addressBook = AddressBook::where("user_id",$userID)->where("is_default",1)->first();
+                    if (!empty($addressBook)) {
+                        $cart->name = $addressBook->full_name;
+                        $cart->phone = $addressBook->phone;
+                        $cart->ward_id = $addressBook->ward_id;
+                        $cart->ward_name = $addressBook->ward_name;
+                        $cart->district_id = $addressBook->district_id;
+                        $cart->district_name = $addressBook->district_name;
+                        $cart->city_id = $addressBook->city_id;
+                        $cart->city_name = $addressBook->city_name;
+                        $cart->address = $addressBook->full_address;
+                    }
+                    $cart->save();
+                };
+    
+                // Sản phẩm chưa tồn tại trong giỏ hàng chi tiết
+                $cartDetail = new CartDetail();
+                $cartDetail->cart_id = $cart->id;
+                $cartDetail->product_id = $arrProductID[$i];
+                $cartDetail->product_name = $cartDetail->product->product_name;
+                $cartDetail->quantity = $arrQuantity[$i];
+                // $cartDetail->total = $cartDetail->product->price * $cartDetail->quantity;
+                $cartDetail->save();
+                CartDetail::updateTotal($cartDetail->id);
+                Cart::setInfoCart($cart->id);
+                DB::commit();
+            }
+            return $this->responseSuccess("Thành công!");
+            
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $this->responseError($th->getMessage());
+        }
+    }
+
     //Update bảng Carts theo id
     public function updateCart($id, Request $request)
     {
