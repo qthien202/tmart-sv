@@ -67,7 +67,9 @@ class ShippingCompanyController extends BaseController
                 return $i;
             }
         }));
-
+        if ($total[0]["value"] >= 50000000) {
+            return $this->responseError("Số tiền không được vượt quá 50.000.000");
+        };
         // $cart = new CartResource($cart);
         // return $cart;
 
