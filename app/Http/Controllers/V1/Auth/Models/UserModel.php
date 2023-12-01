@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Auth\Models;
 use App\Supports\Message;
 use App\User;
 use App\SERVICE;
+use Carbon\Carbon;
 
 class UserModel extends AbstractModel
 {
@@ -35,7 +36,7 @@ class UserModel extends AbstractModel
             $user->last_name     = array_get($input, 'last_name', $user->last_name);
             $user->full_name     = array_get($input, 'full_name', $user->full_name);
             $user->address       = array_get($input, 'address', $user->address);
-            $user->birthday      = array_get($input, 'birthday', $user->birthday);
+            $user->birthday      = Carbon::parse(array_get($input, 'birthday', $user->birthday));
             $user->genre         = array_get($input, 'genre', $user->genre);
             $user->avatar        = array_get($input, 'avatar', $user->avatar);
             $user->id_number     = array_get($input, 'id_number', $user->id_number);
@@ -48,6 +49,7 @@ class UserModel extends AbstractModel
             $user->updated_at    = date("Y-m-d H:i:s", time());
             $user->updated_by    = SERVICE::getCurrentUserId();
             $user->save();
+            // dd($user->birthday);
         } else {
 
             $now       = date("Y-m-d H:i:s", time());
