@@ -10,6 +10,7 @@ use App\Http\Controllers\V1\Auth\Resources\Favorite\FavoriteCollection;
 use App\Http\Controllers\V1\Auth\Resources\Product\ProductCollection;
 use App\Http\Controllers\V1\Auth\Resources\Product\ProductResource;
 use App\SERVICE;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
 {
