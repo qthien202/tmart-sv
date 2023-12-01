@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\V1\Auth\Resources\Product;
 
+use App\Http\Controllers\V1\Auth\Models\Favorite;
 use App\Http\Controllers\V1\Auth\Models\Price;
 use App\Http\Resources\BaseResource;
+use App\SERVICE;
 use App\Supports\SERVICE_Error;
 
 class ProductResource extends BaseResource
@@ -19,6 +21,13 @@ class ProductResource extends BaseResource
      */
     public function toArray($request)
     {
+        $userId = SERVICE::getCurrentUserId();
+        if(empty($userId)){
+            $favorite = false;
+        }else{
+            $favorite = Favorite::where("user_id",$userId)->where("product_id",$this->id)->exists();
+        }
+
         try {
             return [
                 'id'   => $this->id,
@@ -30,6 +39,7 @@ class ProductResource extends BaseResource
                 'sku' => $this->sku,
                 'desctiption' => $this->description,
                 'detail' => $this->detail,
+                'favorite' => $favorite,
                 'category_id' => $this->category_id,
                 'category_name' => $this->category?->name,
                 'stock_quantity' => $this->stock_quantity,

@@ -110,6 +110,10 @@ class ProductController extends BaseController
         ]);
         $userId = SERVICE::getCurrentUserId();
         try {
+            $check = Favorite::where("user_id",$userId)->where("product_id",$request->product_id)->exists();
+            if ($check) {
+                return $this->responseSuccess("Đã có sản phẩm trong yêu thích");
+            }
             DB::beginTransaction();
             $favorite = new Favorite();
             $favorite->user_id = $userId;
