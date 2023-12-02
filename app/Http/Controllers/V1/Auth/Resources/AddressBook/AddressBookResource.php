@@ -23,6 +23,7 @@ class AddressBookResource extends BaseResource
                 'id' => $this->id,
                 'user_id' => $this->user_id,
                 'full_name' => $this->full_name,
+                'is_default' => $this->is_default,
                 'phone' => $this->phone,
                 'ward_id' => $this->ward_id,
                 'ward_name' => $this->ward_name,
