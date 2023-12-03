@@ -205,7 +205,7 @@ class UserController extends BaseController
         $this->validate($request,[
             "phone" => "required"
         ]);
-        $userPhoneCheck = User::where('phone',$request->phone)->exists();
+        $userPhoneCheck = User::where('phone',$request->phone)->where('deleted_at',null)->exists();
         if (empty($userPhoneCheck)) {
             return $this->responseSuccess(null,["status"=>false]);
         }
