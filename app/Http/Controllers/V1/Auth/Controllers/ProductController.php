@@ -149,7 +149,10 @@ class ProductController extends BaseController
     }
 
     public function getFavoriteProducts(Request $request){
-        $favorite = Favorite::search($request->all());
+        $userId = SERVICE::getCurrentUserId();
+        $input = $request->all();
+        $input['user_id'] = $userId;
+        $favorite = Favorite::search($input);
         return new FavoriteCollection($favorite);
     }
 
