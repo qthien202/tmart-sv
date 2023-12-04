@@ -81,7 +81,6 @@ class AddressBookController extends BaseController
     {
         $input = $request;
         $userID = SERVICE::getCurrentUserId();
-        $input['user_id'] = $userID;
         $this->validate($request,[
             // "user_id" => "required|exists:users,id",
             "full_name" => "required",
@@ -99,6 +98,9 @@ class AddressBookController extends BaseController
             // "numeric" => "Trường :attribute phải là số",
             "exists" => "ID sản phẩm không tồn tại"
         ]);
+        
+        $input['user_id'] = $userID;
+        $input['full_address'] = $request->full_address.$request->ward_name.$request->district_name.$request->city_name;
 
         $result = $this->model->create($input->all());
         // if ($result) {
