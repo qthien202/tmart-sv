@@ -75,42 +75,47 @@ class Product extends Model
                     $check++;
                 }
                 if (in_array("2-4",$params['price'])) {
-                    $subquery->whereBetween('price', [2000000, 4000000]);
                     if ($check!=0) {
                         $subquery->orWhereBetween('price', [2000000, 4000000]);
+                    }else{
+                        $subquery->whereBetween('price', [2000000, 4000000]);
                     }
                     $check++;
                     
                 }
                 if (in_array("4-7",$params['price'])) {
-                    $subquery->whereBetween('price', [4000000, 7000000]);
                     if ($check!=0) {
                         $subquery->orWhereBetween('price', [4000000, 7000000]);
+                    }else{
+                        $subquery->whereBetween('price', [4000000, 7000000]);
                     }
                     $check++;
 
                 }
                 if (in_array("7-13",$params['price'])) {
-                    $subquery->whereBetween('price', [7000000, 13000000]);
                     if ($check!=0) {
                         $subquery->orWhereBetween('price', [7000000, 13000000]);
+                    }else{
+                        $subquery->whereBetween('price', [7000000, 13000000]);
                     }
                     $check++;
 
                 }
                 if (in_array("13-20",$params['price'])) {
-                    $subquery->whereBetween('price', [13000000, 20000000]);
                     if ($check!=0) {
                         $subquery->orWhereBetween('price', [13000000, 20000000]);
+                    }else{
+                        $subquery->whereBetween('price', [13000000, 20000000]);
                     }
                     $check++;
 
                 }
                 if (in_array("20",$params['price'])) {
-                    $subquery->where('price', ">", 20000000);
                     if ($check!=0) {
                         $subquery->orWhere('price', ">", 20000000);
-                    }   
+                    }else{
+                        $subquery->where('price', ">", 20000000);
+                    } 
                 }
             });
         }
