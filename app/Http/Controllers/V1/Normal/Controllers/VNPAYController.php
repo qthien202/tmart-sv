@@ -181,7 +181,7 @@ class VNPAYController extends BaseController
                                 $orderPayment->save();
                             } else {
                                 $Status = 2;
-                                $orderPayment["payment_status"] = "Thất bại"; // Trạng thái thanh toán thất bại / lỗi
+                                $orderPayment["payment_status"] = "Chờ xác nhận"; // Trạng thái thanh toán thất bại / lỗi
                                 $orderPayment->save();
                             }
                             //Cài đặt Code cập nhật kết quả thanh toán, tình trạng đơn hàng vào DB
