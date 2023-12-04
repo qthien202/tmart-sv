@@ -31,6 +31,7 @@ class AddressBookResource extends BaseResource
                 'district_name' => $this->district_name,
                 'city_id' => $this->city_id,
                 'city_name' => $this->city_name,
+                'street' => $this->street,
                 'full_address' => $this->full_address,
             ];
         } catch (\Exception $ex) {

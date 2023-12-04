@@ -28,6 +28,7 @@ class AddressBook extends Model
         'district_name', 
         'city_id', 
         'city_name', 
+        'street',
         'full_address', 
         'created_at', 
         'update_at', 
