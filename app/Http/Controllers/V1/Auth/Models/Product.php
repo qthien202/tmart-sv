@@ -67,6 +67,28 @@ class Product extends Model
                 $query->where('category_id', $cateID);
             }
         }
+        if (isset($params['price'])){
+            $query->whereHas('priceDetails', function ($subquery) use ($params){
+                if (in_array("2",$params['price'])) {
+                    $subquery->where('price', '>=', 0)->where('price','<',2000000);
+                }
+                if (in_array("2-4",$params['price'])) {
+                    $subquery->where('price', '>=', 2000000)->where('price','<=',4000000);
+                }
+                if (in_array("4-7",$params['price'])) {
+                    $subquery->where('price', '>=', 4000000)->where('price','<=',7000000);
+                }
+                if (in_array("7-13",$params['price'])) {
+                    $subquery->where('price', '>=', 7000000)->where('price','<=',13000000);
+                }
+                if (in_array("13-20",$params['price'])) {
+                    $subquery->where('price', '>=', 13000000)->where('price','<=',20000000);
+                }
+                if (in_array("20",$params['price'])) {
+                    $subquery->where('price', '>=', 20000000);
+                }
+            });
+        }
         // if (isset($params['price'])) {//array [min,max]
         //     $query->whereBetween('price', $params['price']);
         // }
