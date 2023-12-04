@@ -67,25 +67,50 @@ class Product extends Model
                 $query->where('category_id', $cateID);
             }
         }
-        if (isset($params['price'])){
+        if (isset($params['price'])){ // Array
             $query->whereHas('priceDetails', function ($subquery) use ($params){
+                $check = 0;
                 if (in_array("2",$params['price'])) {
-                    $subquery->where('price', '>=', 0)->where('price','<',2000000);
+                    $subquery->whereBetween('price', [0,2000000]);
+                    $check++;
                 }
                 if (in_array("2-4",$params['price'])) {
-                    $subquery->where('price', '>=', 2000000)->where('price','<=',4000000);
+                    $subquery->whereBetween('price', [2000000, 4000000]);
+                    if ($check!=0) {
+                        $subquery->orWhereBetween('price', [2000000, 4000000]);
+                    }
+                    $check++;
+                    
                 }
                 if (in_array("4-7",$params['price'])) {
-                    $subquery->where('price', '>=', 4000000)->where('price','<=',7000000);
+                    $subquery->whereBetween('price', [4000000, 7000000]);
+                    if ($check!=0) {
+                        $subquery->orWhereBetween('price', [4000000, 7000000]);
+                    }
+                    $check++;
+
                 }
                 if (in_array("7-13",$params['price'])) {
-                    $subquery->where('price', '>=', 7000000)->where('price','<=',13000000);
+                    $subquery->whereBetween('price', [7000000, 13000000]);
+                    if ($check!=0) {
+                        $subquery->orWhereBetween('price', [7000000, 13000000]);
+                    }
+                    $check++;
+
                 }
                 if (in_array("13-20",$params['price'])) {
-                    $subquery->where('price', '>=', 13000000)->where('price','<=',20000000);
+                    $subquery->whereBetween('price', [13000000, 20000000]);
+                    if ($check!=0) {
+                        $subquery->orWhereBetween('price', [13000000, 20000000]);
+                    }
+                    $check++;
+
                 }
                 if (in_array("20",$params['price'])) {
-                    $subquery->where('price', '>=', 20000000);
+                    $subquery->where('price', ">", 20000000);
+                    if ($check!=0) {
+                        $subquery->orWhere('price', ">", 20000000);
+                    }   
                 }
             });
         }
