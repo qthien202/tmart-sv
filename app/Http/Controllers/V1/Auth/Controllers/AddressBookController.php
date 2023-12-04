@@ -100,7 +100,7 @@ class AddressBookController extends BaseController
         ]);
         
         $input['user_id'] = $userID;
-        $input['full_address'] = $request->full_address.$request->ward_name.$request->district_name.$request->city_name;
+        $input['full_address'] = $request->full_address.", ".$request->ward_name.", ".$request->district_name.", ".$request->city_name;
 
         $result = $this->model->create($input->all());
         // if ($result) {
