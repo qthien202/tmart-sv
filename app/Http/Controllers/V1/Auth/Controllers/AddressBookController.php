@@ -125,14 +125,16 @@ class AddressBookController extends BaseController
             "district_name" => "sometimes|required",
             "city_id" => "sometimes|required",
             "city_name" => "sometimes|required",
-            "full_address" => "sometimes|required",
+            "street" => "sometimes|required",
+            // "full_address" => "sometimes|required",
         ],[
             "required" => "Trường :attribute là bắt buộc",
             "max" => "Trường :attribute tối đa :max kí tự",
             // "numeric" => "Trường :attribute phải là số",
             "exists" => "ID sản phẩm không tồn tại"
         ]);
-
+        $input = $request;
+        $input['full_address'] = $request->street.", ".$request->ward_name.", ".$request->district_name.", ".$request->city_name;
         $addressBook = $this->model->find($id);
         if (empty($addressBook)) {
             return $this->responseError("Không tìm thấy địa chỉ");
@@ -141,7 +143,7 @@ class AddressBookController extends BaseController
             return $this->responseError("Không có thay đổi");
         }
         try {
-            $result = $addressBook->update($request->all());
+            $result = $addressBook->update($input->all());
             if ($result) {
                 return $this->responseSuccess("Cập nhật thành công");
             }
