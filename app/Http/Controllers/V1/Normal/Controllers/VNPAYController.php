@@ -274,7 +274,6 @@ class VNPAYController extends BaseController
         } else {
             return $this->responseError("Chu ky khong hop le");
             }
-		
     }
 
     public function IPN(){

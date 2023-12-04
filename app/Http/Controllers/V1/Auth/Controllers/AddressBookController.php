@@ -67,8 +67,8 @@ class AddressBookController extends BaseController
                 $cart->address = $addressBook->full_address;
                 $cart->save();
             }
-            return $this->responseSuccess("Đã đặt thành mặc định");
             DB::commit();
+            return $this->responseSuccess("Đã đặt thành mặc định");
         } catch (\Throwable $th) {
             DB::rollBack();
             return $this->responseError("Lỗi: ".$th->getMessage());
