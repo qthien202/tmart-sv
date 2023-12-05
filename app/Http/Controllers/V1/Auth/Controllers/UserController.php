@@ -152,6 +152,9 @@ class UserController extends BaseController
         $user_id    = SERVICE::getCurrentUserId();
         // $company_id = SERVICE::getCurrentCompanyId();
         $userChangePasswordValidator->validate($input);
+        if ($request->new_password != $request->password_new_confirmation) {
+            return $this->responseError("Mật khẩu không giống nhau");
+        }
         try {
             DB::beginTransaction();
             $user = User::where([

@@ -13,7 +13,7 @@ class UserChangePasswordValidator extends ValidatorBase
         return [
             'password'                  => 'required|min:8',
             'new_password'              => 'bail|required|min:8',
-            'password_new_confirmation' => 'bail|required|same:new_password',
+            'password_new_confirmation' => 'bail|required',
         ];
     }
 
