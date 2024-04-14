@@ -74,4 +74,7 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // VNPAY
     require __DIR__ . '/vnpay.php';
+
+    // Comment
+    require __DIR__ . '/comment.php';
 });
