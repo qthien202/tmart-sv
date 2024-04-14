@@ -23,6 +23,7 @@ class BannerResource extends BaseResource
                 'id'   => $this->id,
                 'code' => $this->code,
                 'name' => $this->name,
+                'short_description' => $this->short_description,
                 'slug' => $this->slug,
                 'is_active' => $this->is_active,
                 'details'   => $this->details->map(function ($item) {
