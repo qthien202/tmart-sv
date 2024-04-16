@@ -35,11 +35,9 @@ class CommentController extends BaseController
         $userId = SERVICE::getCurrentUserId();
         $productId = $request->product_id;
         // 1 User chỉ bình luận 1 sản phẩm 1 lần
-        $check = Comment::where("user_id",$userId)->first();
-        if (!empty($check)) {
-            if ($check->product_id == $productId) {
-                return $this->responseError("User này đã bình luận sản phẩm này rồi!");
-            }
+        $check = Comment::where("user_id",$userId)->where("product_id",$productId)->exists();
+        if ($check) {
+            return $this->responseError("User này đã bình luận sản phẩm này rồi!");
         }
         
         try {
