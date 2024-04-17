@@ -80,6 +80,14 @@ class CommentController extends BaseController
         }
         
     }
+
+    public function getImgsFromProductId(Request $request){
+        $this->validate($request,[
+            'product_id'=>'required|exists:products,id',
+        ]);
+        $comment = Comment::where('product_id',$request->product_id)->select('id','image_url')->get();
+        return $this->responseSuccess(null, $comment);
+    }
     // public function createUnit(Request $request)
     // {
     //     $this->validate($request,[
