@@ -46,7 +46,8 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'gallery_images_url' => 'json'
+        'gallery_images_url' => 'json',
+        'rating_distribution' => 'json'
     ];
 
     public function scopeSearch($query, $params){

@@ -54,14 +54,13 @@ class CommentController extends BaseController
                     "5"=>0
                 ];
                 $rating_distribution[$request->rating] = 1;
-                $product->rating_distribution = $rating_distribution;
+                $product->rating_distribution = json_encode($rating_distribution);
                 // Thêm đánh giá vào
                 $product->average_rating = $request->rating;
             }else{
                 $rating_distribution = json_decode($product->rating_distribution, true);
                 $rating_distribution[$request->rating] = $rating_distribution[$request->rating] + 1;
-                $product->rating_distribution = $rating_distribution;
-
+                $product->rating_distribution = json_encode($rating_distribution);
                 $product->average_rating = ($product->average_rating * $product->num_reviews + $request->rating)/($product->num_reviews+1);
 
             }

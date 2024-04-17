@@ -36,7 +36,7 @@ class ProductResource extends BaseResource
                 'default_price' => $this->price,
                 'price' => Price::getProductPrice($this),
                 'average_rating' => number_format($this->average_rating,1),
-                'rating_distribution' => $this->rating_distribution,
+                'rating_distribution' => json_decode($this->rating_distribution),
                 'num_reviews' => $this->num_reviews,
                 'slug' => $this->slug,
                 'sku' => $this->sku,
