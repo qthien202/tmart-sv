@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1\Auth\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -48,6 +49,10 @@ class Comment extends Model
 
     public function comment(){
         return $this->hasOne(Comment::class,"parent_id","id");
+    }
+
+    public function user(){
+        return $this->hasOne(User::class,"id","user_id");
     }
 
 }

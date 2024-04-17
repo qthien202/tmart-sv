@@ -26,6 +26,8 @@ class CommentResource extends BaseResource
                 'id'   => $this->id,
                 'product_id' => $this->product_id,
                 'user_id' => $this->user_id,
+                'user' => $this->user->first_name." ".$this->user->last_name,
+                'user_avatar' => $this->user->avatar,
                 'text' => $this->text,
                 'image_url' => $this->image_url,
                 'rating' => $this->rating,
