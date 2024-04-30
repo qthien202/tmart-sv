@@ -93,6 +93,8 @@ class ProductController extends BaseController
     public function getProductById($id)
     {
         $product = Product::find($id);
+        $product->views = $product->views+1;
+        $product->save();
         if (empty($product)) {
             return $this->responseError("Không tìm thấy sản phẩm với ID: $id");
         }
