@@ -58,7 +58,7 @@ class ProductController extends BaseController
             "short_description" => "sometimes|required|string",
             "description" => "sometimes|required|string",
             "category_id" => "required|integer|exists:categories,id",
-            "stock_quantity" => "required|integer",
+            "stock_quantity" => "sometimes!required|integer",
             "manufacturer_id" => "sometimes|required|integer|exists:manufacturers,id",
             "unit_id" => "sometimes|required|integer|exists:units,id",
             "packaging_id" => "sometimes|required|integer|exists:packaging_units,id",
