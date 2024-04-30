@@ -77,4 +77,7 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // Comment
     require __DIR__ . '/comment.php';
+
+    // admin
+    require __DIR__ . '/admin.php';
 });
