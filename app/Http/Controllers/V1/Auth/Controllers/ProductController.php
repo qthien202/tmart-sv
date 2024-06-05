@@ -50,7 +50,7 @@ class ProductController extends BaseController
     public function createProduct(Request $request)
     {
         $this->validate($request, [
-            "code" => "required|string|unique:products",// Code sản phẩm đã tồn tại
+            "code" => "required|sometimes|string|unique:products",// Code sản phẩm đã tồn tại
             "product_name" => "required|string",
             "price" => "required|numeric",
             "slug" =>  "sometimes|required|string",
@@ -63,7 +63,7 @@ class ProductController extends BaseController
             "unit_id" => "sometimes|required|integer|exists:units,id",
             "packaging_id" => "sometimes|required|integer|exists:packaging_units,id",
             "thumpnail_url" => "sometimes|required|string",
-            "gallery_images_url" => "sometimes|required|string",
+            "gallery_images_url" => "sometimes|required",
             "views" => "sometimes|required|integer",
             "tags" => "sometimes|required|string",
             "meta_title" => "sometimes|required|string",
