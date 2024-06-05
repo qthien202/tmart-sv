@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Auth\Controllers;
 
 use App\Category;
 use App\Http\Controllers\V1\Auth\Models\Favorite;
+use App\Http\Controllers\V1\Auth\Models\Price;
 use Illuminate\Http\Request;
 use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Controllers\V1\Auth\Resources\Favorite\FavoriteCollection;
@@ -53,6 +54,12 @@ class ProductController extends BaseController
             "code" => "required|sometimes|string|unique:products",// Code sản phẩm đã tồn tại
             "product_name" => "required|string",
             "price" => "required|numeric",
+
+            "discount_price" => "required|sometimes", #Chưa làm: Ngày bắt buộc khi có discount_price
+            "effective_date" =>"required|sometimes",
+            "expire_date" =>"required|sometimes",
+
+
             "slug" =>  "sometimes|required|string",
             "sku" => "sometimes|required|string",
             "short_description" => "sometimes|required|string",
@@ -86,6 +93,15 @@ class ProductController extends BaseController
         //     return $this->responseError("Code sản phẩm đã tồn tại");
         // }
         $result = $this->model->create($request->all());
+
+        $data['effective_date'] = $request->effective_date;
+        $data['expire_date'] = $request->expire_date;
+        $data['currency'] = 'VND';
+        $data['product_id'] = $result->id;
+        $data['price'] = $request->discount_price;
+        
+        Price::createPrice(new Price(),$data);
+
         return $this->responseSuccess("Thêm sản phẩm thành công");
     }
 
