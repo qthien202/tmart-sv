@@ -93,15 +93,17 @@ class ProductController extends BaseController
         //     return $this->responseError("Code sản phẩm đã tồn tại");
         // }
         $result = $this->model->create($request->all());
+        if (!empty($request->discount_price)&&!empty($request->effective_date)&&!empty($request->expire_date)) {
 
-        $data['effective_date'] = $request->effective_date;
-        $data['expire_date'] = $request->expire_date;
-        $data['currency'] = 'VND';
-        $data['product_id'] = $result->id;
-        $data['price'] = $request->discount_price;
-        
-        Price::createPrice(new Price(),$data);
+            $data['effective_date'] = $request->effective_date;
+            $data['expire_date'] = $request->expire_date;
+            $data['currency'] = 'VND';
+            $data['product_id'] = $result->id;
+            $data['price'] = $request->discount_price;
+            
+            Price::createPrice(new Price(),$data);
 
+        }
         return $this->responseSuccess("Thêm sản phẩm thành công");
     }
 
