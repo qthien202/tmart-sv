@@ -70,6 +70,12 @@ class AuthController extends BaseController
             }
 
             $user = User::where(['phone' => $input['phone']])->first();
+            if(!empty($request->role)){
+                if(!($user->role_id == 1)){#admin
+                    return $this->responseError("Tài khoản không có quyền ADMIN", 401);
+                }
+            }
+
             if (empty($user)) {
                 return $this->responseError(Message::get("users.admin-login-invalid"), 401);
             }
@@ -77,7 +83,6 @@ class AuthController extends BaseController
             if ($user->is_active == "0") {
                 return $this->responseError(Message::get("users.user-inactive"), 401);
             }
-
             // Write User Session
             $now = time();
             UserSession::where('user_id', $user->id)->update([
