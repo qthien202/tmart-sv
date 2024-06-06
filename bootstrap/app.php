@@ -41,6 +41,8 @@ $app->configure('validation');
 $app->configure('queue');
 $app->configure('filesystems');
 $app->configure('excel');
+class_alias(\LaravelFCM\Facades\FCM::class, 'FCM');
+class_alias(\LaravelFCM\Facades\FCMGroup::class, 'FCMGroup');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -112,7 +114,8 @@ $app->routeMiddleware([
     'verifySecret' => App\Http\Middleware\VerifySecret::class,
     'trimInput'    => App\Http\Middleware\TrimInput::class,
     'authorize'    => App\Http\Middleware\Authorize::class,
-    'tokenStore'    => App\Http\Middleware\TokenStore::class
+    'tokenStore'    => App\Http\Middleware\TokenStore::class,
+    'admin'    => App\Http\Middleware\AdminMiddleware::class
 ]);
 
 // if (!class_exists('JWTAuth')) {
@@ -143,6 +146,8 @@ $app->register(\Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Jenssegers\Agent\AgentServiceProvider::class);
 class_alias(Jenssegers\Agent\Facades\Agent::class, 'Agent');
 class_alias(Maatwebsite\Excel\Facades\Excel::class, "Excel");
+$app->register(LaravelFCM\FCMServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------

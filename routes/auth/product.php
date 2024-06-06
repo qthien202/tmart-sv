@@ -3,10 +3,9 @@ $api->get('/get_products', 'ProductController@getProducts');
 $api->post('/add_to_favorite', 'ProductController@addToFavorite');
 $api->delete('/remove_product_from_favorites', 'ProductController@removeProductFromFavorites');
 $api->get('/get_favorite_product', 'ProductController@getFavoriteProducts');
-$api->post('/create_product', 'ProductController@createProduct');
+
 // $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
-$api->put('/update_product/{id}', 'ProductController@updateProduct');
 $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
 $api->get('/get_product_by_category_id/{id}', 'ProductController@getProductByCategoryId');
 $api->get('/get_products_cate', 'ProductController@getProductsCate');
