@@ -195,9 +195,6 @@ class Product extends Model
         if (isset($params['gallery_images_url'])) {
             $query->where('gallery_images_url', $params['gallery_images_url']);
         }
-        if (isset($params['views'])) {
-            $query->where('views', $params['views']);
-        }
         if (isset($params['tags'])) {
             $query->where('tags', $params['tags']);
         }
@@ -221,6 +218,18 @@ class Product extends Model
         }
         if (isset($params['related_ids'])) {
             $query->where('related_ids', $params['related_ids']);
+        }
+        if (isset($params['views'])) {
+            return $query->orderBy('views','desc')->limit($params['views'])->get();
+        }
+        if(isset($params['arrange_price'])){
+            // $query->whereHas('priceDetails', function ($subquery) use ($params){
+            //     $subquery->orderBy('price','asc');
+            //     // $subquery->whereBetween('price', [0,2000000]);
+            // });
+            $query->join('price_details', 'products.id', '=', 'price_details.product_id')->select('products.*', 'price_details.price')->orderBy('price_details.price', $params['arrange_price']);
+        }else{
+            $query->orderBy('updated_at','desc');
         }
         return $query->paginate(Arr::get($params,'perPage', 10));
     }

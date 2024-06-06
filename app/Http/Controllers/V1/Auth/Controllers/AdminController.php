@@ -33,10 +33,10 @@ class AdminController extends BaseController
     public function checkAdmin(){
         if(SERVICE::isAdminUser()){
             return $this->responseSuccess(null,["role"=>"admin"]);
-            return response()->json(["role"=>"admin"],200);
+            // return response()->json(["role"=>"admin"],200);
         }else{
             return $this->responseSuccess(null,["role"=>"user"]);
-            return response()->json(["role"=>"user"],200);
+            // return response()->json(["role"=>"user"],200);
         }
     }
 }
