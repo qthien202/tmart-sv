@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Auth\Controllers;
 
 use App\Http\Controllers\V1\Auth\Models\Order;
 use App\Http\Controllers\V1\Auth\Models\Product;
+use App\SERVICE;
 use App\User;
 
 class AdminController extends BaseController
@@ -27,5 +28,15 @@ class AdminController extends BaseController
             'view' =>$views,
         ];
         return $this->responseSuccess(null,$data);
+    }
+
+    public function checkAdmin(){
+        if(SERVICE::isAdminUser()){
+            return $this->responseSuccess(null,["role"=>"admin"]);
+            return response()->json(["role"=>"admin"],200);
+        }else{
+            return $this->responseSuccess(null,["role"=>"user"]);
+            return response()->json(["role"=>"user"],200);
+        }
     }
 }
