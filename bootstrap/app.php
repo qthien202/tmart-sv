@@ -41,8 +41,8 @@ $app->configure('validation');
 $app->configure('queue');
 $app->configure('filesystems');
 $app->configure('excel');
-class_alias(\LaravelFCM\Facades\FCM::class, 'FCM');
-class_alias(\LaravelFCM\Facades\FCMGroup::class, 'FCMGroup');
+// class_alias(\LaravelFCM\Facades\FCM::class, 'FCM');
+// class_alias(\LaravelFCM\Facades\FCMGroup::class, 'FCMGroup');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -146,7 +146,7 @@ $app->register(\Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Jenssegers\Agent\AgentServiceProvider::class);
 class_alias(Jenssegers\Agent\Facades\Agent::class, 'Agent');
 class_alias(Maatwebsite\Excel\Facades\Excel::class, "Excel");
-$app->register(LaravelFCM\FCMServiceProvider::class);
+// $app->register(LaravelFCM\FCMServiceProvider::class);
 
 
 /*
