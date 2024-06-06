@@ -72,7 +72,7 @@ class AuthController extends BaseController
             $user = User::where(['phone' => $input['phone']])->first();
             if(!empty($request->role)){
                 if(!($user->role_id == 1)){#admin
-                    return $this->responseError("Tài khoản không có quyền ADMIN", 401);
+                    return $this->responseError("Tài khoản không có quyền truy cập", 401);
                 }
             }
 
