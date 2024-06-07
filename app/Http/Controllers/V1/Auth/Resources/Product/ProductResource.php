@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1\Auth\Resources\Product;
 
 use App\Http\Controllers\V1\Auth\Models\Favorite;
 use App\Http\Controllers\V1\Auth\Models\Price;
+use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Resources\BaseResource;
 use App\SERVICE;
 use App\Supports\SERVICE_Error;
@@ -35,6 +36,13 @@ class ProductResource extends BaseResource
                 'product_name' => $this->product_name,
                 'default_price' => $this->price,
                 'price' => Price::getProductPrice($this),
+                'price_date' => $this->priceDetails->map(function($item){
+                    return [
+                        "price" => $item->price,
+                        "effective_date" => $item->prices?->effective_date,
+                        "expire_date" => $item->prices?->expire_date
+                    ];
+                }),
                 'average_rating' => number_format($this->average_rating,1),
                 'rating_distribution' => json_decode($this->rating_distribution),
                 'num_reviews' => $this->num_reviews,
