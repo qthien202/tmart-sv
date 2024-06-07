@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1\Auth\Controllers;
 use App\Category;
 use App\Http\Controllers\V1\Auth\Models\Favorite;
 use App\Http\Controllers\V1\Auth\Models\Price;
+use App\Http\Controllers\V1\Auth\Models\PriceDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\V1\Auth\Models\Product;
 use App\Http\Controllers\V1\Auth\Resources\Favorite\FavoriteCollection;
@@ -217,6 +218,27 @@ class ProductController extends BaseController
             return $this->responseError("Không tìm thấy sản phẩm với ID: $id");
         }
         try {
+            // $result = $this->model->create($request->all());
+            // if (!empty($request->discount_price)&&!empty($request->effective_date)&&!empty($request->expire_date)) {
+            if (!empty($request->effective_date)) {
+                $data['effective_date'] = $request->effective_date;
+            }
+            if (!empty($request->expire_date)) {
+                $data['expire_date'] = $request->expire_date;
+            }
+            if (!empty($request->discount_price)) {
+                $data['price'] = $request->discount_price;
+            }
+            $data['currency'] = 'VND';
+            $data['product_id'] = $product->id;
+
+            $priceDetail = PriceDetail::where('product_id',$product->id)->get();
+            foreach ($priceDetail as $priceDetail) {
+                Price::updatePrice($priceDetail->prices,$data);
+            }
+    
+            // }
+
             $result = $product->update($request->all());
             if ($result) {
                 return $this->responseSuccess("Không xảy ra lỗi trong quá trình cập nhật");
