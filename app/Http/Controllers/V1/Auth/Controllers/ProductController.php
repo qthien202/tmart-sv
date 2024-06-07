@@ -233,6 +233,15 @@ class ProductController extends BaseController
         if (empty($product)) {
             return $this->responseError("Không tìm thấy sản phẩm với ID: $id");
         }
+
+        $priceDetail = $product->priceDetails;
+        foreach ($priceDetail as $priceDetail) {
+            $price = $priceDetail->prices;
+            $price->delete();
+            $priceDetail->delete();
+        }
+        // $priceDetail->prices->delete();
+        // $product->priceDetails()->delete();
         $product->delete();
         return $this->responseSuccess("Xóa sản phẩm thành công");
     }

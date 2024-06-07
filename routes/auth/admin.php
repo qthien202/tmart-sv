@@ -6,4 +6,6 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     // Product
     $api->post('/create_product', 'ProductController@createProduct');
     $api->put('/update_product/{id}', 'ProductController@updateProduct');
+    $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
+
 });

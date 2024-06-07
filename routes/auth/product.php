@@ -6,7 +6,7 @@ $api->get('/get_favorite_product', 'ProductController@getFavoriteProducts');
 
 // $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
 $api->get('/get_product_by_id/{id}', 'ProductController@getProductById');
-$api->delete('/remove_product/{id}', 'ProductController@removeProduct');
+// $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
 $api->get('/get_product_by_category_id/{id}', 'ProductController@getProductByCategoryId');
 $api->get('/get_products_cate', 'ProductController@getProductsCate');
 
