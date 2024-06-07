@@ -56,8 +56,8 @@ class ProductController extends BaseController
             "price" => "required|numeric",
 
             "discount_price" => "required|sometimes", #Chưa làm: Ngày bắt buộc khi có discount_price
-            "effective_date" =>"required|sometimes",
-            "expire_date" =>"required|sometimes",
+            "effective_date" =>"required|sometimes|date_format:Y-m-d H:i:s",
+            "expire_date" =>"required|sometimes|date_format:Y-m-d H:i:s",
 
 
             "slug" =>  "sometimes|required|string",
