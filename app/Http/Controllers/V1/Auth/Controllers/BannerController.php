@@ -44,18 +44,22 @@ class BannerController extends BaseController
     public function create(Request $request)
     {
         $attributes = $this->validate($request, [
-            'code' => ['required', 'string', 'max:50', function ($attribute, $value, $fail) {
+            'code' => ['sometimes','required', 'string', 'max:50', function ($attribute, $value, $fail) {
                 $banner = $this->model->where('code', $value)->first();
                 if ($banner) {
                     $fail('Mã banner [' . $value . '] đã tồn tại');
                 }
             }],
             'name' => 'required|string|max:100',
-            'is_active' => 'required|boolean',
-            'details' => 'required|array',
-            'details.*.banner_id' => 'nullable|integer|exists:banners,id,deleted_at,NULL',
-            'details.*.image' => 'required|string',
-            'details.*.link' => 'nullable|string',
+            'is_active' => 'sometimes|required|boolean',
+            'image' => 'required|string',
+            'link' => 'required|sometimes',
+            'short_description' => 'required|sometimes',
+            'slug' => 'required|sometimes',
+            // 'details' => 'required|array',
+            // 'details.*.banner_id' => 'nullable|integer|exists:banners,id,deleted_at,NULL',
+            // 'details.*.image' => 'required|string',
+            // 'details.*.link' => 'nullable|string',
         ], [
             'code.required' => 'Mã banner không được để trống',
             'code.unique' => 'Mã banner đã tồn tại',
@@ -66,36 +70,45 @@ class BannerController extends BaseController
             'name.max' => 'Tên banner không được quá 100 ký tự',
             'is_active.required' => 'Trạng thái không được để trống',
             'is_active.boolean' => 'Trạng thái phải là boolean',
-            'details.required' => 'Chi tiết banner không được để trống',
-            'details.array' => 'Chi tiết banner phải là mảng',
-            'details.*.banner_id.integer' => 'Id banner phải là số nguyên',
-            'details.*.banner_id.exists' => 'Id banner không tồn tại',
-            'details.*.image.required' => 'Hình ảnh không được để trống',
-            'details.*.image.string' => 'Hình ảnh phải là chuỗi',
-            'details.*.link.string' => 'Link phải là chuỗi',
+            // 'details.required' => 'Chi tiết banner không được để trống',
+            // 'details.array' => 'Chi tiết banner phải là mảng',
+            // 'details.*.banner_id.integer' => 'Id banner phải là số nguyên',
+            // 'details.*.banner_id.exists' => 'Id banner không tồn tại',
+            // 'details.*.image.required' => 'Hình ảnh không được để trống',
+            // 'details.*.image.string' => 'Hình ảnh phải là chuỗi',
+            // 'details.*.link.string' => 'Link phải là chuỗi',
         ]);
-        $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
-
+        // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        if (!empty($attributes['slug'])) {
+            $attributes['slug'] = str_slug($attributes['slug']);
+        }
+        if (empty($attributes['is_active'])) {
+            $attributes['is_active'] = 1;
+        }
         $banner = $this->model->create($attributes);
-        $banner->details()->createMany($attributes['details']);
-        return new BannerResource($banner);
+        $attributes['banner_id'] = $banner->id;
+        $banner->details()->create($attributes);
+        // $banner->details()->createMany($attributes['details']);
+        return $this->responseSuccess("Thêm banner thành công");
     }
 
     public function update($id, Request $request)
     {
         $attributes = $this->validate($request, [
-            'code' => ['required', 'string', 'max:50', function ($attribute, $value, $fail) use ($id) {
+            'code' => ['sometimes','required', 'string', 'max:50', function ($attribute, $value, $fail) use ($id) {
                 $banner = $this->model->where('code', $value)->where('id', '!=', $id)->first();
                 if ($banner) {
                     $fail('Mã banner [' . $value . '] đã tồn tại');
                 }
             }],
-            'name' => 'required|string|max:100',
-            'is_active' => 'required|boolean',
-            'details' => 'required|array',
-            'details.*.banner_id' => 'nullable|integer|exists:banners,id,deleted_at,NULL',
-            'details.*.image' => 'required|string',
-            'details.*.link' => 'nullable|string',
+            'name' => 'sometimes|required|string|max:100',
+            'is_active' => 'sometimes|required|boolean',
+            'short_description' => 'required|sometimes',
+            'slug' => 'required|sometimes',
+            // 'details' => 'required|array',
+            // 'details.*.banner_id' => 'nullable|integer|exists:banners,id,deleted_at,NULL',
+            // 'details.*.image' => 'required|string',
+            // 'details.*.link' => 'nullable|string',
         ], [
             'code.required' => 'Mã banner không được để trống',
             'code.unique' => 'Mã banner đã tồn tại',
@@ -106,42 +119,56 @@ class BannerController extends BaseController
             'name.max' => 'Tên banner không được quá 100 ký tự',
             'is_active.required' => 'Trạng thái không được để trống',
             'is_active.boolean' => 'Trạng thái phải là boolean',
-            'details.required' => 'Chi tiết banner không được để trống',
-            'details.array' => 'Chi tiết banner phải là mảng',
-            'details.*.banner_id.integer' => 'Id banner phải là số nguyên',
-            'details.*.banner_id.exists' => 'Id banner không tồn tại',
-            'details.*.image.required' => 'Hình ảnh không được để trống',
-            'details.*.image.string' => 'Hình ảnh phải là chuỗi',
-            'details.*.link.string' => 'Link phải là chuỗi',
+            // 'details.required' => 'Chi tiết banner không được để trống',
+            // 'details.array' => 'Chi tiết banner phải là mảng',
+            // 'details.*.banner_id.integer' => 'Id banner phải là số nguyên',
+            // 'details.*.banner_id.exists' => 'Id banner không tồn tại',
+            // 'details.*.image.required' => 'Hình ảnh không được để trống',
+            // 'details.*.image.string' => 'Hình ảnh phải là chuỗi',
+            // 'details.*.link.string' => 'Link phải là chuỗi',
         ]);
-        $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        $attributesDetails = $this->validate($request,[
+            'image' => 'required|string|sometimes',
+            'link' => 'required|sometimes',
+        ]);
+        // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        if (!empty($attributes['slug'])) {
+            $attributes['slug'] = str_slug($attributes['slug']);
+        }
 
         $banner = $this->model->find($id);
         if (!$banner) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Banner không tồn tại'
-            ], 400);
+            return $this->responseError("Banner không tồn tại");
         }
         $banner->update($attributes);
-        $banner->details()->delete();
-        $banner->details()->createMany($attributes['details']);
-        return new BannerResource($banner);
+        // $attributes['banner_id'] = $banner->id;
+        // $attributesDetails = $attributes[]
+        $banner->details()->update($attributesDetails);
+
+        return $this->responseSuccess("Cập nhật banner thành công");
+        // $banner->update($attributes);
+        // $banner->details()->delete();
+        // $banner->details()->createMany($attributes['details']);
+
+        // $banner = $this->model->find($id);
+        // if (!$banner) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => 'Banner không tồn tại'
+        //     ], 400);
+        // }
+        // $banner->update($attributes);
+        // $banner->details()->delete();
+        // $banner->details()->createMany($attributes['details']);
     }
     public function delete($id)
     {
         $banner = $this->model->find($id);
         if (!$banner) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Banner không tồn tại'
-            ], 400);
+            return $this->responseError("Banner không tồn tại");
         }
         $banner->details()->delete();
         $banner->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Xóa banner thành công'
-        ], 200);
+        return $this-> responseSuccess("Xóa banner thành công");
     }
 }

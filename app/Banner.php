@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 class Banner extends BaseModel
 {
     protected $table = 'banners';
-    protected $fillable = ['code', 'name', 'slug', 'is_active'];
+    protected $fillable = ['code', 'name', 'short_description','slug', 'is_active'];
 
     // Tìm kiếm banner theo các tiêu chí của client truyền xuống
     public function scopeSearch($query, $params)
