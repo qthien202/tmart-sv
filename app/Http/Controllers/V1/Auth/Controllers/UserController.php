@@ -14,6 +14,8 @@ use App\Supports\SERVICE_Email;
 use App\Supports\SERVICE_Error;
 use App\Supports\Message;
 use App\User;
+use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -219,30 +221,67 @@ class UserController extends BaseController
     public function uploadAvatar(Request $request)
     {
         $userId = SERVICE::getCurrentUserId();
-        // $userId = auth()->id();
-        // Kiểm tra đuôi
-        // Kiểm tra xem tệp đã được tải lên hay chưa
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $domain = "https://tmart.tuanthanhdev.id.vn";
-            $imagePath = $domain.'/uploads/' . $imageName;
-            // Lưu tệp vào thư mục lưu trữ
-            $image->move(public_path('uploads'), $imageName);
+        if ($request->hasFile('image')){
+            try {
+                DB::beginTransaction();
+                // Upload firebase
+                $client = new Client();
+                
+                $file = $request->file('image'); // Url ảnh tạm .tmp
+                $imageName = time() . '.' . $file->getClientOriginalExtension(); // Tên ảnh ngẫu nhiên + đuôi file ảnh
+                $filePath = $file->getPathname();
+                $mimeType = $file->getMimeType();
 
-            $avatar = User::find($userId)->update([
-                'avatar' => $imagePath
-            ]);
-            // $avatar = DB::table("users")->where('id',auth()->id())->update([
-            //     'avatar'=>$imagePath
-            // ]);
-            if($avatar){
+                // $fileName = $file->getClientOriginalName();
+                // $response = $client->request('POST','https://firebasestorage.googleapis.com/v0/b/appfttmart-3c6e3.appspot.com/o?uploadType=media&name=avatar/'.$imageName,[],[], $headers, fopen($filePath, 'r'));
+                $response = $client->request('POST', 'https://firebasestorage.googleapis.com/v0/b/appfttmart-3c6e3.appspot.com/o', [
+                    'query' => [
+                        'uploadType' => 'media',
+                        'name' => 'avatar/' . $imageName
+                    ],
+                    'headers' => [
+                        'Content-Type' => $mimeType
+                    ],
+                    'body' => fopen($filePath, 'r')
+                ]);
+                $downloadToken= json_decode($response->getBody()->getContents())->downloadTokens;
+                $imgFirebaseURL = 'https://firebasestorage.googleapis.com/v0/b/appfttmart-3c6e3.appspot.com/o/avatar%2F'. $imageName . '?alt=media&token=' . $downloadToken;
+                $avatar = User::find($userId)->update([
+                    'avatar' => $imgFirebaseURL
+                ]);
+                DB::commit();
                 return $this->responseSuccess("Cập nhật ảnh đại diện thành công");
-            }
-            else{
-                return $this->responseError("Không cập nhật được ảnh đại diện");
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $this->responseError($th->getMessage());
             }
         }
-        return $this->responseError("Không có tệp nào được tải lên!");
+        // ----- UPLOAD VAO HOST
+
+        // // $userId = auth()->id();
+        // // Kiểm tra đuôi
+        // // Kiểm tra xem tệp đã được tải lên hay chưa
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
+        //     $domain = "https://tmart.tuanthanhdev.id.vn";
+        //     $imagePath = $domain.'/uploads/' . $imageName;
+        //     // Lưu tệp vào thư mục lưu trữ
+        //     $image->move(public_path('uploads'), $imageName);
+
+        //     $avatar = User::find($userId)->update([
+        //         'avatar' => $imagePath
+        //     ]);
+        //     // $avatar = DB::table("users")->where('id',auth()->id())->update([
+        //     //     'avatar'=>$imagePath
+        //     // ]);
+        //     if($avatar){
+        //         return $this->responseSuccess("Cập nhật ảnh đại diện thành công");
+        //     }
+        //     else{
+        //         return $this->responseError("Không cập nhật được ảnh đại diện");
+        //     }
+        // }
+        // return $this->responseError("Không có tệp nào được tải lên!");
     }
 }
