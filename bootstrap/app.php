@@ -41,6 +41,7 @@ $app->configure('validation');
 $app->configure('queue');
 $app->configure('filesystems');
 $app->configure('excel');
+$app->configure('fcm');
 class_alias(\LaravelFCM\Facades\FCM::class, 'FCM');
 class_alias(\LaravelFCM\Facades\FCMGroup::class, 'FCMGroup');
 /*
