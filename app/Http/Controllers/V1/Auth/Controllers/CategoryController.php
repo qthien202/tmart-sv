@@ -106,15 +106,17 @@ class CategoryController extends BaseController
     {
         $category = $this->model->find($id);
         if (!$category) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Category không tồn tại'
-            ], 400);
+            return $this->responseError("Category không tồn tại");
+            // return response()->json([
+            //     'status' => 'error',
+            //     'message' => 'Category không tồn tại'
+            // ], 400);
         }
         $category->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Xóa category thành công'
-        ], 200);
+        return $this->responseSuccess("Xóa category thành công");
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'Xóa category thành công'
+        // ], 200);
     }
 }
