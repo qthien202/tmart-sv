@@ -100,7 +100,7 @@ class CategoryController extends BaseController
         }
         $category = $this->model->find($id);
         $category->update($attributes);
-        return new CategoryResource($category);
+        return $this->responseSuccess("Sửa category [$category->name] thành công");
     }
     public function delete($id)
     {
