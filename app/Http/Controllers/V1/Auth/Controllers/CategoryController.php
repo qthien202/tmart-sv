@@ -50,6 +50,7 @@ class CategoryController extends BaseController
                     $fail('Mã category [' . $value . '] đã tồn tại');
                 }
             }],
+            'slug' => 'required|string|max:100',
             'name' => 'required|string|max:100',
             'parent_id' => 'nullable|integer|exists:categories,id,deleted_at,NULL',
         ], [
@@ -64,6 +65,7 @@ class CategoryController extends BaseController
             'parent_id.exists' => 'Id danh mục cha không tồn tại',
         ]);
         // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        $attributes['slug'] = str_slug($attributes['slug']);
 
         $category = $this->model->create($attributes);
         return $this->responseSuccess("Thêm category [$category->name] thành công");
@@ -78,6 +80,7 @@ class CategoryController extends BaseController
                     $fail('Mã category [' . $value . '] đã tồn tại');
                 }
             }],
+            'slug' => 'sometimes|required|string|max:100',
             'name' => 'sometimes|required|string|max:100',
             'parent_id' => 'nullable|integer|exists:categories,id,deleted_at,NULL',
         ], [
@@ -92,7 +95,9 @@ class CategoryController extends BaseController
             'parent_id.exists' => 'Id danh mục cha không tồn tại',
         ]);
         // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
-
+        if (!empty($attributes['slug'])) {
+            $attributes['slug'] = str_slug($attributes['slug']);
+        }
         $category = $this->model->find($id);
         $category->update($attributes);
         return new CategoryResource($category);
