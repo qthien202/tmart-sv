@@ -7,6 +7,7 @@ use App\Http\Controllers\V1\Auth\Resources\ShippingCompany\ShippingCompanyCollec
 use App\Http\Controllers\V1\Auth\Resources\ShippingCompany\ShippingCompanyResource;
 use App\Http\Controllers\V1\Normal\Models\Cart;
 use App\Http\Controllers\V1\Normal\Resources\Cart\CartResource;
+use App\Notification\Notification;
 use App\SERVICE;
 use App\User;
 use GuzzleHttp\Client;
@@ -16,10 +17,12 @@ use Illuminate\Support\Arr;
 class ShippingCompanyController extends BaseController
 {
     protected $model;
+    // protected $notification;
 
     public function __construct()
     {
         $this->model = new ShippingCompany();
+        // $this->notification = new Notification();
     }
     
     public function getShippingCompanies(Request $request)

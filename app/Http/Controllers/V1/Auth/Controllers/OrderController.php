@@ -123,6 +123,7 @@ class OrderController extends BaseController
             $cart->delete();
             $cart->cartDetails()->delete();
             DB::commit();
+            $this->notificationToDevice('Thông báo','Đặt hàng thành công');
             return $this->responseSuccess('Thêm thành công',["order_id"=>$order->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -308,6 +309,7 @@ class OrderController extends BaseController
         try {
             $order->status_code = "cancelled";
             $order->save();
+            $this->notificationToDevice('Thông báo','Hủy đơn hàng thành công');
             return $this->responseSuccess("Hủy thành công");
         } catch (\Throwable $th) {
             return $this->responseSuccess("Hủy thất bại, error: ",$th->getMessage());

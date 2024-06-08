@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "96a43cc37bed7f8c3b6c89f284491f03",
+    "content-hash": "99bc2b9f6f42f1b40ca85c914d9da0a7",
     "packages": [
         {
             "name": "brick/math",
@@ -60,6 +60,87 @@
                 }
             ],
             "time": "2023-01-15T23:15:59+00:00"
+        },
+        {
+            "name": "code-lts/laravel-fcm",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/code-lts/Laravel-FCM.git",
+                "reference": "68b28360fa1900808d2cb03fa491b200d01bb996"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/code-lts/Laravel-FCM/zipball/68b28360fa1900808d2cb03fa491b200d01bb996",
+                "reference": "68b28360fa1900808d2cb03fa491b200d01bb996",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6 || ^7",
+                "illuminate/support": "^5.6 || ^6 || ^7 || ^8 || ^9 || ^10 || ^11",
+                "monolog/monolog": "^1.12||^2.0||^3.2",
+                "php": "^7.1.3 || ^8.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "^5.6 || ^6 || ^7 || ^8 || ^9 || ^10 || ^11",
+                "phpstan/phpstan": "^1",
+                "phpunit/phpunit": "^7 || ^8 || ^9 || ^10 || ^11",
+                "wdes/coding-standard": "^3.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelFCM\\FCMServiceProvider"
+                    ],
+                    "aliases": {
+                        "FCM": "LaravelFCM\\Facades\\FCM",
+                        "FCMGroup": "LaravelFCM\\Facades\\FCMGroup"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelFCM\\": "src/",
+                    "LaravelFCM\\Mocks\\": "tests/mocks"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Brosy",
+                    "email": "nicolas.brosy@gmail.com"
+                },
+                {
+                    "name": "William Desportes",
+                    "email": "williamdes@wdes.fr"
+                }
+            ],
+            "description": "Laravel / Lumen package for Firebase Cloud Messaging",
+            "keywords": [
+                "FCM",
+                "Firebase Cloud Messaging",
+                "firebase",
+                "laravel",
+                "lumen",
+                "notification",
+                "push"
+            ],
+            "support": {
+                "email": "williamdes@wdes.fr",
+                "issues": "https://github.com/code-lts/Laravel-FCM/issues",
+                "source": "https://github.com/code-lts/Laravel-FCM"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/williamdes",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-23T17:04:12+00:00"
         },
         {
             "name": "composer/semver",
@@ -9149,5 +9230,5 @@
         "ext-openssl": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
