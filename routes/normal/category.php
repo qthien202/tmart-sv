@@ -1,7 +1,7 @@
 <?php
 $api->get('/categories', 'CategoryController@search');
-$api->get('/categories/{id:[0-9]+}', 'CategoryController@detailById');
-$api->get('/categories/{code}', 'CategoryController@detailByCode');
-$api->post('/categories', 'CategoryController@create');
-$api->put('/categories/{id:[0-9]+}', 'CategoryController@update');
-$api->delete('/categories/{id:[0-9]+}', 'CategoryController@delete');
+// $api->get('/categories/{id:[0-9]+}', 'CategoryController@detailById');
+// $api->get('/categories/{code}', 'CategoryController@detailByCode');
+// $api->post('/categories', 'CategoryController@create');
+// $api->put('/categories/{id:[0-9]+}', 'CategoryController@update');
+// $api->delete('/categories/{id:[0-9]+}', 'CategoryController@delete');

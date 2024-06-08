@@ -66,7 +66,7 @@ class CategoryController extends BaseController
         $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
 
         $category = $this->model->create($attributes);
-        return new CategoryResource($category);
+        return $this->responseSuccess("Thêm category [$category->name] thành công");
     }
 
     public function update($id, Request $request)
