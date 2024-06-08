@@ -63,7 +63,7 @@ class CategoryController extends BaseController
             'parent_id.integer' => 'Id danh mục cha phải là số nguyên',
             'parent_id.exists' => 'Id danh mục cha không tồn tại',
         ]);
-        $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
 
         $category = $this->model->create($attributes);
         return $this->responseSuccess("Thêm category [$category->name] thành công");
@@ -72,13 +72,13 @@ class CategoryController extends BaseController
     public function update($id, Request $request)
     {
         $attributes = $this->validate($request, [
-            'code' => ['required', 'string', 'max:50', function ($attribute, $value, $fail) use ($id) {
+            'code' => ['sometimes','required', 'string', 'max:50', function ($attribute, $value, $fail) use ($id) {
                 $category = $this->model->where('code', $value)->where('id', '!=', $id)->first();
                 if ($category) {
                     $fail('Mã category [' . $value . '] đã tồn tại');
                 }
             }],
-            'name' => 'required|string|max:100',
+            'name' => 'sometimes|required|string|max:100',
             'parent_id' => 'nullable|integer|exists:categories,id,deleted_at,NULL',
         ], [
             'code.required' => 'Mã category không được để trống',
@@ -91,7 +91,7 @@ class CategoryController extends BaseController
             'parent_id.integer' => 'Id danh mục cha phải là số nguyên',
             'parent_id.exists' => 'Id danh mục cha không tồn tại',
         ]);
-        $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
+        // $attributes['slug'] = str_slug($attributes['name'] . '-' . $attributes['code']);
 
         $category = $this->model->find($id);
         $category->update($attributes);

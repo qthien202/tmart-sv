@@ -9,6 +9,10 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
     // Category
     $api->post('/categories', 'CategoryController@create');
+    $api->put('/categories/{id:[0-9]+}', 'CategoryController@update');
+    $api->delete('/categories/{id:[0-9]+}', 'CategoryController@delete');
+
+
 
 
 });
