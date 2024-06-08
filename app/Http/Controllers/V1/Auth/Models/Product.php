@@ -68,6 +68,11 @@ class Product extends Model
                 $query->where('category_id', $cateID);
             }
         }
+        if (isset($params['average_rating'])) {
+
+            $query->where('average_rating','>=',$params['average_rating']);
+
+        }
         if (isset($params['price'])){ // Array
             $query->whereHas('priceDetails', function ($subquery) use ($params){
                 $check = 0;
