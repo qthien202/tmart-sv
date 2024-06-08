@@ -19,7 +19,7 @@ class CMSLoginValidator extends ValidatorBase
             'phone'       => 'required',
             'password'    => 'required',
             'device_type' => 'in:DESKTOP,TABLET,PHONE,ANDROID,IOS,UNKNOWN',
-            'device_id'   => 'nullable|max:50'
+            'device_id'   => 'nullable'
         ];
     }
 
