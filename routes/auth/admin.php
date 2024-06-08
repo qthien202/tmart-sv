@@ -11,6 +11,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->post('/categories', 'CategoryController@create');
     $api->put('/categories/{id:[0-9]+}', 'CategoryController@update');
     $api->delete('/categories/{id:[0-9]+}', 'CategoryController@delete');
+    $api->post('/check-code-category', 'CategoryController@checkCode');
     // Banner
     $api->post('/banners', 'BannerController@create');
     $api->put('/banners/{id:[0-9]+}', 'BannerController@update');

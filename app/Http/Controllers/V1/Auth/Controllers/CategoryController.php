@@ -119,4 +119,17 @@ class CategoryController extends BaseController
         //     'message' => 'Xóa category thành công'
         // ], 200);
     }
+
+    public function checkCode(Request $request){
+        $this->validate($request,[
+            "code" => "required"
+        ]);
+        $CategoryCodeCheck = Category::where('code',$request->code)->where('deleted_at',null)->exists();
+        if (empty($CategoryCodeCheck)) {
+            return $this->responseSuccess(null,["status"=>false]);
+        }
+        else{
+            return $this->responseSuccess(null,["status"=>true]);
+        }
+    }
 }
