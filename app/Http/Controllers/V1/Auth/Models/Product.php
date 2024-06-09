@@ -62,7 +62,8 @@ class Product extends Model
         if (isset($params['product_name'])) {
             $cateID = Category::where("name",$params['product_name'])->value("id");
             if (empty($cateID)) {
-                $query->where('product_name', 'like', '%' . $params['product_name'] . '%');
+                $query->whereRaw('MATCH(product_name) AGAINST(\''.$params["product_name"].'\' IN NATURAL LANGUAGE MODE)');
+                // $query->where('product_name', 'like', '%' . $params['product_name'] . '%');
             }
             else{
                 $query->where('category_id', $cateID);
