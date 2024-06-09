@@ -80,4 +80,7 @@ $api->group(['prefix' => 'api/auth', 'namespace' => 'V1\Auth\Controllers', 'midd
 
     // admin
     require __DIR__ . '/admin.php';
+
+    // Notification
+    require __DIR__ . '/notification.php';
 });
