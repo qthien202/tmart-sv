@@ -310,11 +310,11 @@ class OrderController extends BaseController
         if (($order->user_id != $userID)) {
             return $this->responseError("Bạn không có quyền hủy đơn này");
         }
-        $orderNumber = $order->order_number;
-        $thumpnailUrl = $order->orderDetails[0]->product->thumpnail_url;
-        if (empty($order)) {
+        if (empty($order)||$order->status_code == "cancelled") {
             return $this->responseError("Không tìm thấy đơn hàng");
         }
+        $orderNumber = $order->order_number;
+        $thumpnailUrl = $order->orderDetails[0]->product->thumpnail_url;
         try {
             $order->status_code = "cancelled";
             $order->save();
