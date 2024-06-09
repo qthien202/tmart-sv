@@ -127,7 +127,7 @@ class OrderController extends BaseController
             $cart->cartDetails()->delete();
             DB::commit();
             if ($amountProduct > 1) {
-                $content = 'Đặt '.$product_name.' và '.$amountProduct.' sản phẩm khác thành công';
+                $content = 'Đặt '.$product_name.' và '.($amountProduct-1).' sản phẩm khác thành công';
             }else{
                 $content = 'Đặt '.$product_name.' thành công';
             }
