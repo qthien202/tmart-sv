@@ -131,7 +131,7 @@ class OrderController extends BaseController
             }else{
                 $content = 'Đặt '.$product_name.' thành công';
             }
-            $this->notificationToDevice('Đặt hàng thành công',$content,$thumpnail_url);
+            $this->notificationToDevice('Đặt hàng thành công',$content,$thumpnail_url,$order->id);
             return $this->responseSuccess('Thêm thành công',["order_id"=>$order->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
