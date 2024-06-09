@@ -179,13 +179,13 @@ class Product extends Model
         if (isset($params['description'])) {
             $query->where('description', $params['description']);
         }
-        if (isset($params['category_id'])) {//array
+        if (isset($params['category_id']) && !is_null($params['category_id'])) {//array
             $query->whereIn('category_id', $params['category_id']);
         }
         if (isset($params['stock_quantity'])) {
             $query->where('stock_quantity', $params['stock_quantity']);
         }
-        if (isset($params['manufacturer_id'])) {//array
+        if (isset($params['manufacturer_id']) && !($params['manufacturer_id'][0]=="null")) {//array
             $query->whereIn('manufacturer_id', $params['manufacturer_id']);
         }
         if (isset($params['unit_id'])) {
