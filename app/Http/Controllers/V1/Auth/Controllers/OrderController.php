@@ -120,10 +120,18 @@ class OrderController extends BaseController
                 'status_id' => $order->status_code,
                 'note' => $order->note,
             ]);
+            $product_name = $cart->cartDetails[0]->product->product_name; // Sản phẩm đầu tiên để hiện thông báo
+            $thumpnail_url = $cart->cartDetails[0]->product->thumpnail_url; // Sản phẩm đầu tiên để hiện thông báo
+            $amountProduct = $cart->cartDetails->count();
             $cart->delete();
             $cart->cartDetails()->delete();
             DB::commit();
-            $this->notificationToDevice('Thông báo','Đặt hàng thành công');
+            if ($amountProduct > 1) {
+                $content = 'Đặt '.$product_name.' và '.$amountProduct.' sản phẩm khác thành công';
+            }else{
+                $content = 'Đặt '.$product_name.' thành công';
+            }
+            $this->notificationToDevice('Đặt hàng thành công',$content,$thumpnail_url);
             return $this->responseSuccess('Thêm thành công',["order_id"=>$order->id]);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -302,14 +310,15 @@ class OrderController extends BaseController
         if (($order->user_id != $userID)) {
             return $this->responseError("Bạn không có quyền hủy đơn này");
         }
-
+        $orderNumber = $order->order_number;
+        $thumpnailUrl = $order->orderDetails[0]->product->thumpnail_url;
         if (empty($order)) {
             return $this->responseError("Không tìm thấy đơn hàng");
         }
         try {
             $order->status_code = "cancelled";
             $order->save();
-            $this->notificationToDevice('Thông báo','Hủy đơn hàng thành công');
+            $this->notificationToDevice('Hủy đơn hàng','Đơn hàng '.$orderNumber.' đã được hủy thành công', $thumpnailUrl, $order->id);
             return $this->responseSuccess("Hủy thành công");
         } catch (\Throwable $th) {
             return $this->responseSuccess("Hủy thất bại, error: ",$th->getMessage());

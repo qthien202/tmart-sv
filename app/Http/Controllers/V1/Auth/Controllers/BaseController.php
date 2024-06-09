@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\V1\Auth\Controllers;
 
+use App\Http\Controllers\V1\Auth\Models\Notification;
 use App\SERVICE;
 use App\Supports\Message;
+use App\User;
 use App\UserSession;
 use Laravel\Lumen\Routing\Controller;
 use LaravelFCM\Facades\FCM;
@@ -56,9 +58,11 @@ class BaseController extends Controller
         $topicResponse->error();
 
     }
-    protected function notificationToDevice($title,$content){
+    protected function notificationToDevice($title,$content,$imageUrl=null,$orderId=null){
         $tokenUser = JWTAuth::getToken(); //XEM LẠI
-        $token = UserSession::where('token',$tokenUser)->value('device_id'); //XEM LẠI
+        $userSession = UserSession::where('token',$tokenUser)->select('device_id','user_id')->first(); //XEM LẠI
+        $token = $userSession->device_id;
+        $userId = $userSession->user_id;
         if (empty($token)) {
             return;
         }
@@ -66,9 +70,10 @@ class BaseController extends Controller
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
 
-        $notificationBuilder = new PayloadNotificationBuilder($title);
+        $notificationBuilder = new PayloadNotificationBuilder($title); 
         $notificationBuilder->setBody($content)
-                            ->setSound('default');
+                            ->setSound('default')
+                            ->setImage($imageUrl);
 
         $dataBuilder = new PayloadDataBuilder();
         $dataBuilder->addData(['a_data' => 'my_data']);
@@ -79,7 +84,24 @@ class BaseController extends Controller
 
         $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
-        $downstreamResponse->numberFailure();
+        if ($downstreamResponse->numberSuccess() > 0) {
+            $notification = new Notification();
+            $notification->user_id = $userId;
+            if (!is_null($orderId)) {
+                $notification->order_id = $orderId;
+            }
+            $notification->title = $title;
+            $notification->content = $content;
+            if (!is_null($imageUrl)) {
+                $notification->image_url = $imageUrl;
+            }
+            $notification->save();
+            // return response()->json(['success' => true, 'message' => 'Notification sent successfully']);
+        } elseif ($downstreamResponse->numberFailure() > 0) {
+            // return response()->json(['success' => false, 'message' => 'Failed to send notification', 'error' => $downstreamResponse->tokensToDelete()]);
+        }
+        
+        // $downstreamResponse->numberFailure();
         $downstreamResponse->numberModification();
         // dd($downstreamResponse);
         // return Array - you must remove all this tokens in your database

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\V1\Auth\Models\Notification;
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\Model;
@@ -88,5 +89,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function updatedBy()
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
+    }
+
+    public function notifications(){
+        return $this->hasMany(Notification::class,"user_id","id");
     }
 }
