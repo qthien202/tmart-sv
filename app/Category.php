@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\V1\Auth\Models\Product;
 use Illuminate\Support\Arr;
 
 class Category extends BaseModel
@@ -30,5 +31,9 @@ class Category extends BaseModel
     public function child()
     {
         return $this->hasMany(Category::class, 'parent_id', 'id');
+    }
+
+    public function products(){
+        return $this->hasMany(Product::class,'category_id','id');
     }
 }

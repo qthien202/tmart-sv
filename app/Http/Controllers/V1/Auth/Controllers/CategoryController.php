@@ -112,6 +112,12 @@ class CategoryController extends BaseController
             //     'message' => 'Category không tồn tại'
             // ], 400);
         }
+
+        // Check có sản phẩm
+        if($category->products->count()>0){
+            return $this->responseError("Cần phải xóa sản phẩm trước khi xóa danh mục");
+        }
+
         $category->delete();
         return $this->responseSuccess("Xóa category thành công");
         // return response()->json([
