@@ -243,7 +243,11 @@ class Product extends Model
             $query->join('price_details', 'products.id', '=', 'price_details.product_id')->select('products.*', 'price_details.price')->orderBy('price_details.price', $params['arrange_price']);
         }
         if (isset($params['latest'])){
-            $query->orderBy('updated_at','desc');
+            if ($params['latest']==true) {
+                $query->orderBy('updated_at','desc');
+            }else{
+                $query->orderBy('updated_at','asc');
+            }
         }
         return $query->paginate(Arr::get($params,'perPage', 10));
     }
