@@ -12,7 +12,7 @@ class Banner extends BaseModel
     // Tìm kiếm banner theo các tiêu chí của client truyền xuống
     public function scopeSearch($query, $params)
     {
-        $query->select('id', 'code', 'name', 'slug', 'is_active','created_at','updated_at');
+        $query->select('*');
         if (isset($params['code'])) {
             $query->where('code', $params['code']);
         }
