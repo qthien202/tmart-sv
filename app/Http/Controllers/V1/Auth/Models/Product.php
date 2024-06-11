@@ -180,6 +180,9 @@ class Product extends Model
         if (isset($params['description'])) {
             $query->where('description', $params['description']);
         }
+        if (isset($params['category_id_string'])) {
+            $query->where('category_id', $params['category_id_string']);
+        }
         if (isset($params['category_id']) && !is_null($params['category_id'])) {//array
             $query->whereIn('category_id', $params['category_id']);
         }
