@@ -25,7 +25,7 @@ class Voucher extends Model
         "voucher_date_end"
     ];
 
-    public function conditions() {
+    public function condition() {
         return $this->hasOne(Condition::class,"voucher_code","voucher_code");
     }
 }

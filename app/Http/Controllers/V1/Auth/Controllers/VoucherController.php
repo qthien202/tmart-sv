@@ -52,8 +52,32 @@ class VoucherController extends BaseController
             DB::rollBack();
             return $this->responseError($th->getMessage());
         }
-        
-        
-        return "aa";
     }
+    public function updateVoucher(Request $request){
+        $voucherInput = $this->validate($request,[
+            "voucher_code" => "required|max:20",
+            "voucher_value" => "sometimes|required",
+            "voucher_type" => "sometimes|required",
+            "title" => "sometimes|required",
+            "voucher_date_start" => "sometimes|required",
+            "voucher_date_end" => "sometimes|required",
+        ]);
+        $conditioInput = $this->validate($request,[
+            "max_discoun" => "sometimes|required",
+            "min_order_amount" => "sometimes|required",
+            "first_order_only" => "sometimes|required",
+            "mobile_app_only" => "sometimes|required",
+            "for_loged_in_users" => "sometimes|required",
+            "applicable_product" => "sometimes|required",
+        ]);
+
+        $voucher = $this->model->where('voucher_code',$request->voucher_code)->first();
+        if (empty($voucher)) {
+            return $this->responseError("Không tìm thấy voucher");
+        }
+        $voucher->update($voucherInput);
+        $voucher->condition->update($conditioInput);
+        return $this->responseSuccess("Sửa thành công");
+    }
+
 }

@@ -24,6 +24,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->delete('/remove_manufacturer/{id}', 'ManufacturerController@removeManuFacturer');
     // Voucher
     $api->post('/create_voucher', 'VoucherController@createVoucher');
+    $api->put('/update_voucher', 'VoucherController@updateVoucher');
 
 
 });
