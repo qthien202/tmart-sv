@@ -25,6 +25,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     // Voucher
     $api->post('/create_voucher', 'VoucherController@createVoucher');
     $api->put('/update_voucher', 'VoucherController@updateVoucher');
+    $api->get('/get_voucher', 'VoucherController@search');
 
 
 });

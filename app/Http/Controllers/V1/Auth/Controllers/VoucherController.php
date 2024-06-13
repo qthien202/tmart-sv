@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\V1\Auth\Controllers;
 
+use App\Http\Controllers\V1\Auth\Resources\Voucher\VoucherCollection;
 use App\Http\Controllers\V1\Normal\Models\Condition;
 use App\Http\Controllers\V1\Normal\Models\Voucher;
 use Illuminate\Http\Request;
@@ -13,6 +14,11 @@ class VoucherController extends BaseController
     public function __construct()
     {
         $this->model = new Voucher();
+    }
+
+    public function search(Request $request){
+        $voucher = $this->model->search($request);
+        return new VoucherCollection($voucher);
     }
 
     public function createVoucher(Request $request){
