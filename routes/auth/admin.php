@@ -3,6 +3,7 @@ $api->get('/check_admin', 'AdminController@checkAdmin');
 
 $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','admin']], function ($api) {
     $api->get('/admin', 'AdminController@statistical');
+    $api->get('/admin_chart', 'AdminController@chartData');
     // Product
     $api->post('/create_product', 'ProductController@createProduct');
     $api->put('/update_product/{id}', 'ProductController@updateProduct');
@@ -26,6 +27,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->post('/create_voucher', 'VoucherController@createVoucher');
     $api->put('/update_voucher', 'VoucherController@updateVoucher');
     $api->get('/get_voucher', 'VoucherController@search');
+    $api->delete('/remove_voucher/{voucher_code}', 'VoucherController@deleteVoucher');
 
 
 });

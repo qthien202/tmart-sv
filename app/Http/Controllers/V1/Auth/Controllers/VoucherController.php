@@ -88,4 +88,17 @@ class VoucherController extends BaseController
         return $this->responseSuccess("Sửa thành công");
     }
 
+    public function deleteVoucher($voucher_code){
+
+        $voucher = Voucher::where('voucher_code',$voucher_code);
+
+        if(empty($voucher)){
+            return $this->responseError("Không tìm thấy voucher");
+        }
+
+        
+        $result = $voucher->delete();
+        return $this->responseSuccess("Xóa voucher thành công");
+    }
+
 }
