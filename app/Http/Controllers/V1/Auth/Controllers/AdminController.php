@@ -19,12 +19,21 @@ class AdminController extends BaseController
     public function statistical(){
         $numUser = User::where('role_id',2)->where('is_active',1) ->count();
         $numOrder = Order::where('status_code','delivered')->count();
-        $numRevenue = Order::where('status_code','delivered')->count();
+        $order = Order::where('status_code','delivered')->get();
+        $totalRevenue = 0;
+        foreach ($order as $item) {
+            // dd($item->info_total_amount);
+            array_filter($item->info_total_amount,function($a) use (&$totalRevenue){
+                if($a['code'] == "total"){
+                    $totalRevenue+=$a['value'];
+                }
+            });
+        }
         $views = Product::sum('views');
         $data = [
             'num_user' =>$numUser,
             'num_order' => $numOrder,
-            'revenue'=>$numRevenue,
+            'revenue'=>$totalRevenue,
             'view' =>$views,
         ];
         return $this->responseSuccess(null,$data);
