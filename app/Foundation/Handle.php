@@ -1,9 +1,11 @@
 <?php
 namespace App\Foundation;
 
+use App\Http\Controllers\V1\Auth\Models\Order;
 use App\Http\Controllers\V1\Normal\Models\Coupon;
 use App\Http\Controllers\V1\Normal\Models\Session;
 use App\Http\Controllers\V1\Normal\Models\Voucher;
+use App\SERVICE;
 use Carbon\Carbon;
 
 class Handle{
@@ -126,6 +128,16 @@ class Handle{
                         $result[] = "Không áp dụng được, sản phẩm yêu cầu không có trong giỏ hàng";
                     }
                    
+                }
+
+                // Chỉ đơn hàng đầu tiên
+                if (!is_null($condition->first_order_only)){
+                    $userId = SERVICE::getCurrentUserId();
+                    $checkFirstOrder = Order::where('user_id',$userId)->whereNull('deleted_at')->exists();
+                    if ($checkFirstOrder) {
+                        $result[] = "Chỉ áp dụng được cho đơn hàng đầu tiên";
+                    }
+                    // $checkFirstOrder = Order::where('user_id',$userId)->exists(); //Van chay duoc
                 }
                 
             }
