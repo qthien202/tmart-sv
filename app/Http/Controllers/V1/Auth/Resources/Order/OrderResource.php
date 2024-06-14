@@ -53,9 +53,9 @@ class OrderResource extends BaseResource
                 'billing_address' => $this->billing_address,
                 'free_item' => $this->free_item,
                 'order_date' => $this->order_date,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-                'deleted_at' => $this->deleted_at,
+                'created_at' => !empty($this->created_at) ? date('Y-m-d H:i:s', strtotime($this->created_at)) : null,
+                'updated_at' => !empty($this->updated_at) ? date('Y-m-d H:i:s', strtotime($this->updated_at)) : null,
+                'deleted_at' => !empty($this->deleted_at) ? date('Y-m-d H:i:s', strtotime($this->deleted_at)) : null,
             ];
         } catch (\Exception $ex) {
             $response = SERVICE_Error::handle($ex);
