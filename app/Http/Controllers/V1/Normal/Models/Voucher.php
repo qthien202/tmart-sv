@@ -22,6 +22,7 @@ class Voucher extends Model
         "voucher_value",
         "voucher_type",
         "title",
+        "is_active",
         "voucher_date_start",
         "voucher_date_end"
     ];
@@ -30,6 +31,9 @@ class Voucher extends Model
         $query->select('*');
         if (isset($params['voucher_code'])) {
             $query->where('voucher_code', $params['voucher_code']);
+        }
+        if (isset($params['is_active'])) {
+            $query->where('is_active', $params['is_active']);
         }
         if (isset($params['voucher_value'])) {
             $query->where('voucher_value', $params['voucher_value']);

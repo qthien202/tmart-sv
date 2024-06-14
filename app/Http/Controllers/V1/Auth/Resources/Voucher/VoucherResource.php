@@ -25,6 +25,7 @@ class VoucherResource extends BaseResource
                 'voucher_value' => $this->voucher_value,
                 'voucher_type' => $this->voucher_type,
                 'title' => $this->title,
+                'is_active' => $this->is_active,
                 'voucher_date_start' => $this->voucher_date_start,
                 'voucher_date_end' => $this->voucher_date_end,
                 'max_discoun' => $condition->max_discoun,

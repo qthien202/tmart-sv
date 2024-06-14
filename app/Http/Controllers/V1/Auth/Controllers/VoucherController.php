@@ -27,6 +27,7 @@ class VoucherController extends BaseController
             "voucher_value" => "required",
             "voucher_type" => "required",
             "title" => "required",
+            "is_active" => "required",
             "voucher_date_start" => "sometimes|required",
             "voucher_date_end" => "sometimes|required",
         ]);
@@ -65,6 +66,7 @@ class VoucherController extends BaseController
             "voucher_value" => "sometimes|required",
             "voucher_type" => "sometimes|required",
             "title" => "sometimes|required",
+            "is_active" => "sometimes|required",
             "voucher_date_start" => "sometimes|required",
             "voucher_date_end" => "sometimes|required",
         ]);
