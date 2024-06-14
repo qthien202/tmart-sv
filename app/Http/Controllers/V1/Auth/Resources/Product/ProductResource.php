@@ -28,7 +28,7 @@ class ProductResource extends BaseResource
         }else{
             $favorite = Favorite::where("user_id",$userId)->where("product_id",$this->id)->exists();
         }
-
+        $totalViews = Product::sum('views');
         try {
             return [
                 'id'   => $this->id,
@@ -61,6 +61,7 @@ class ProductResource extends BaseResource
                 'thumpnail_url' => $this->thumpnail_url,
                 'gallery_images_url' => $this->gallery_images_url,
                 'views' => $this->views,
+                'views_percentage' => number_format(($this->views*100)/$totalViews,2),
                 'tags' => $this->tags,
                 'meta_title' => $this->meta_title,
                 'meta_description' => $this->meta_description,
