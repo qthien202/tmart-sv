@@ -74,6 +74,12 @@ class Product extends Model
             $query->where('average_rating','>=',$params['average_rating']);
 
         }
+        if (isset($params['average_rating_sort'])) {
+            if ($params['average_rating_sort']=="true"){
+                $query->orderBy('average_rating','desc');
+            }
+
+        }
         if (isset($params['price'])){ // Array
             $query->whereHas('priceDetails', function ($subquery) use ($params){
                 $check = 0;
