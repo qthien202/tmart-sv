@@ -49,7 +49,7 @@ class AdminController extends BaseController
         $timeStr = $time->toDateString();
         $orders = Order::where('order_date','>=',$timeStr)->get();
         $revenueDate = [];
-        for ($i=0; $i < 7; $i++) { 
+        for ($i=0; $i < 8; $i++) { 
             // Chưa tối ưu
             $date =  Carbon::now()->subWeek()->addDays($i);
             $dateStr = $date->toDateString();
