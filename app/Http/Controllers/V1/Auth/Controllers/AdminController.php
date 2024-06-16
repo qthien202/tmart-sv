@@ -47,7 +47,8 @@ class AdminController extends BaseController
         $timeNow = Carbon::now();
         $time =$timeNow->subWeek();
         $timeStr = $time->toDateString();
-        $orders = Order::where('order_date','>=',$timeStr)->get();
+        // $orders = Order::where('order_date','>=',$timeStr)->get();
+        $orders = Order::where('order_date','>=',$timeStr)->where('status_code','delivered')->get();
         $revenueDate = [];
         for ($i=0; $i < 8; $i++) { 
             // Chưa tối ưu
