@@ -61,7 +61,7 @@ class AdminController extends BaseController
             array_filter($order->info_total_amount,function($a) use (&$revenueDate,$orderDate){
                 if($a['code'] == "total"){
                     $revenueDate[$orderDate]["revenue"]+=(int)($a['value']);
-                    $revenueDate[$orderDate]["profit"]+=$a['value'] > 10000 ? (int)(0.95*$a['value']):0;
+                    $revenueDate[$orderDate]["profit"]+=$a['value'] > 10000 ? (int)(0.75*$a['value']):0;
                 }
             });
         }
