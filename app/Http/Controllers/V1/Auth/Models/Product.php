@@ -199,7 +199,7 @@ class Product extends Model
             $query->whereIn('manufacturer_id', $params['manufacturer_id']);
         }
         if (isset($params['manufacturer_id_string'])) {//string
-            $query->whereIn('manufacturer_id', $params['manufacturer_id_string']);
+            $query->where('manufacturer_id', $params['manufacturer_id_string']);
         }
         if (isset($params['unit_id'])) {
             $query->where('unit_id', $params['unit_id']);
