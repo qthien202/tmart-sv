@@ -60,7 +60,12 @@ class Order extends Model
             $query->where('status_code', $params['status_code']);
         }
         if (isset($params['name'])) {
-            $query->where('name', $params['name']);
+            $checkOrder = Order::where("order_number",$params['name'])->exists();
+            if ($checkOrder) {
+                $query->where("order_number",$params['name']);
+            }else{
+            $query->where('name','LIKE', '%'.$params['name'].'%');
+            }
         }
         $query->orderByDesc('created_at');
         return $query->paginate(Arr::get($params,'perPage', 10));
