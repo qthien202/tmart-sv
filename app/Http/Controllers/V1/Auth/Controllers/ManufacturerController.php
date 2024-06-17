@@ -25,7 +25,7 @@ class ManufacturerController extends BaseController
     public function createManufacturer(Request $request)
     {
         $this->validate($request,[
-            "name" => "required",
+            "name" => "required|unique:manufacturers,name",
             "address" => "sometimes|required",
             "phone" => "sometimes|required",
             "email" => "sometimes|required",
