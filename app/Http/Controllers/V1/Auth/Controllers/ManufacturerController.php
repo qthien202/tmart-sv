@@ -34,6 +34,7 @@ class ManufacturerController extends BaseController
             "year_established" => "sometimes|required|integer",
             "product_infomation" => "sometimes|required"
         ],[
+            "unique" => "Trường :attribute đã tồn tại",
             "required" => "Trường :attribute là bắt buộc",
             "year_established.integer" => "Năm thành lập phải là số nguyên"
         ]);
