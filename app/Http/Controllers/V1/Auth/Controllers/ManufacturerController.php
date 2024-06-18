@@ -25,7 +25,8 @@ class ManufacturerController extends BaseController
     public function createManufacturer(Request $request)
     {
         $this->validate($request,[
-            "name" => "required|unique:manufacturers,name",
+            // "name" => "required|unique:manufacturers,name",
+            "name" => "required",
             "address" => "sometimes|required",
             "phone" => "sometimes|required",
             "email" => "sometimes|required",
@@ -34,10 +35,16 @@ class ManufacturerController extends BaseController
             "year_established" => "sometimes|required|integer",
             "product_infomation" => "sometimes|required"
         ],[
-            "unique" => "Trường :attribute đã tồn tại",
+            // "unique" => "Trường :attribute đã tồn tại",
             "required" => "Trường :attribute là bắt buộc",
             "year_established.integer" => "Năm thành lập phải là số nguyên"
         ]);
+
+        $checkMnf = Manufacturer::where('name',$request->name)->exists();
+        if ($checkMnf) {
+            return $this->responseError("Nhà sản xuất đã tồn tại");
+        }
+
         $this->model->create($request->all());
         return $this->responseSuccess("Thêm nhà sản xuất thành công");
     }
