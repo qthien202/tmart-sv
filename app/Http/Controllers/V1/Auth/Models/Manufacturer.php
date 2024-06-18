@@ -57,4 +57,7 @@ class Manufacturer extends Model
         }
         return $query->paginate(Arr::get($params,'perPage', 10));
     }
+    public function products(){
+        return $this->hasMany(Product::class,'manufacturer_id','id');
+    }
 }

@@ -86,6 +86,10 @@ class ManufacturerController extends BaseController
         if (empty($mfr)) {
             return $this->responseError("Không tìm thấy nhà sản xuất với ID: $id");
         }
+        // Check có sản phẩm
+        if($mfr->products->count()>0){
+            return $this->responseError("Cần phải xóa sản phẩm trước khi xóa nhà sản xuất");
+        }
         $mfr->delete();
         return $this->responseSuccess("Xóa nhà sản xuất thành công");
     }
