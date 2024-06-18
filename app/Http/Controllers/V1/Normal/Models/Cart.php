@@ -83,9 +83,13 @@ class Cart extends Model
             }
             // % 1 - 100
             if($cart->coupon->coupon_type == "T"){
-                $maxDiscoun = $cart->coupon->conditions->max_discoun;
+                $maxDiscoun = $cart->coupon->conditions?->max_discoun;
                 $discoun = (($cart->coupon->coupon_value/100)*$total);
-                $total -= ($maxDiscoun > $discoun) ? $discoun : $maxDiscoun;
+                if (is_null($maxDiscoun)) {
+                    $total -= $discoun;
+                }else{
+                    $total -= ($maxDiscoun > $discoun) ? $discoun : $maxDiscoun;
+                }
             }
             $data[] = [
                 "code" => "coupon",
@@ -100,9 +104,13 @@ class Cart extends Model
             }
             // $ 1 - 100
             if($cart->voucher->voucher_type == "T"){
-                $maxDiscoun = $cart->voucher->conditions->max_discoun;
+                $maxDiscoun = $cart->voucher->conditions?->max_discoun;
                 $discoun = (($cart->voucher->voucher_value/100)*$total);
-                $total -= ($maxDiscoun > $discoun) ? $discoun : $maxDiscoun;
+                if (is_null($maxDiscoun)) {
+                    $total -= $discoun;
+                }else{
+                    $total -= ($maxDiscoun > $discoun) ? $discoun : $maxDiscoun;
+                }
             }
             $data[] = [
                 "code" => "voucher",

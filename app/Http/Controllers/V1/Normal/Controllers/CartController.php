@@ -528,6 +528,7 @@ class CartController extends BaseController
             "max" => "Trường này tối đa :max ký tự"
         ]);
         try {
+            DB::beginTransaction();
             $cart = Cart::find($request->cart_id);
             if (empty($cart)) {
                 return $this->responseError("Không tìm thấy giỏ hàng");
@@ -554,9 +555,10 @@ class CartController extends BaseController
             if (!empty($result)) {
                 return $this->responseError($result[0]);
             }
-
+            DB::commit();
             return $this->responseSuccess("Thêm voucher thành công");
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $this->responseError($th->getMessage());
         }
     }
