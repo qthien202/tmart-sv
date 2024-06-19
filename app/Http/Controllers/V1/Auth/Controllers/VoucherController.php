@@ -107,7 +107,7 @@ class VoucherController extends BaseController
 
     public function deleteVoucher($voucher_code){
 
-        $voucher = Voucher::where('voucher_code',$voucher_code);
+        $voucher = Voucher::where('voucher_code',$voucher_code)->first();
 
         if(empty($voucher)){
             return $this->responseError("Không tìm thấy voucher");
