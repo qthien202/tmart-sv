@@ -17,7 +17,11 @@ class NotificationController extends BaseController{
 
     public function getNotification(Request $request){
         $input = $request->all();
-        $input['user_id'] = SERVICE::getCurrentUserId();
+        $user = SERVICE::getCurrentUserId();
+        if (is_null($user)) {
+            return $this->responseError("Không tìm thấy user");
+        }
+        $input['user_id'] = 
         $notification = $this->model->search($input);
         return new NotificationCollection($notification);
     }
