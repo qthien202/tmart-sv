@@ -35,7 +35,7 @@ class Handle{
             $now = Carbon::now();
 
             $result = [];
-            $condition = $coupon->conditions;
+            $condition = $coupon->conditions; /////////////////////////////////////////
             if(!is_null($condition)){
                 // Giá trị đơn hàng tối thiểu
                 foreach ($cart->info as $info) {
@@ -86,6 +86,11 @@ class Handle{
         }
 
         // VOUCHER
+        $checkVoucher = Voucher::where('voucher_code',$cart->voucher_code)->exists();
+        if (!$checkVoucher) {
+            $cart->voucher_code = null;
+            $cart->save();
+        }
         if ((!is_null($cart->voucher_code)) && ($option != 1)) {
             $voucherCode = $cart->voucher_code;
             $voucher = Voucher::find($voucherCode);
