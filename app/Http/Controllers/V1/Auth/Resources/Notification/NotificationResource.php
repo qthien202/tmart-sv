@@ -22,6 +22,7 @@ class NotificationResource extends BaseResource
         try {
             Carbon::setLocale('vi');
             return [
+                "id"=> $this->id,
                 'user_id'   => $this->user_id,
                 "order_id" => $this->order_id,
                 "title" => $this->title,
