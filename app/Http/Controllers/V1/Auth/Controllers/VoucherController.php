@@ -50,7 +50,12 @@ class VoucherController extends BaseController
             $condition->first_order_only = $request?->first_order_only ;
             $condition->mobile_app_only = $request?->mobile_app_only ;
             $condition->for_loged_in_users = $request?->for_loged_in_users ;
-            $condition->applicable_product = $request?->applicable_product ;
+
+            $applicable_product = $request?->applicable_product;
+            if (is_null($applicable_product) || $applicable_product == 0) {
+                $condition->applicable_product = null ;
+            }
+            
             $condition->save();
 
             DB::commit();
