@@ -34,6 +34,9 @@ class CommentController extends BaseController
             "integer" => "Trường :attribute là số nguyên"
         ]);
         $userId = SERVICE::getCurrentUserId();
+        if (is_null($userId)) {
+            return $this->responseError("Cần phải đăng nhập để bình luận");
+        }
         $productId = $request->product_id;
         $test = empty($request->test)?true:false; // chế độ test thêm comment
         // 1 User chỉ bình luận 1 sản phẩm 1 lần
