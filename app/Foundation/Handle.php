@@ -93,7 +93,7 @@ class Handle{
 
             // Condition
             $result=[];
-            $condition = $voucher->conditions;
+            $condition = $voucher->condition;
             if(!is_null($condition)){
                 // Giá trị đơn hàng tối thiểu
                 foreach ($cart->info as $info) {

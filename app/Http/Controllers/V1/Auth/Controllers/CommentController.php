@@ -27,6 +27,7 @@ class CommentController extends BaseController
     public function addComment(Request $request){
         $this->validate($request,[
             "product_id" => "required|integer",
+            "rating" => "required",
             "text" => "required",
         ],[
             "required" => "Trường :attribute là bắt buộc",

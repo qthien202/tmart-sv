@@ -104,7 +104,7 @@ class Cart extends Model
             }
             // $ 1 - 100
             if($cart->voucher->voucher_type == "T"){
-                $maxDiscoun = $cart->voucher->conditions?->max_discoun;
+                $maxDiscoun = $cart->voucher->condition?->max_discoun;
                 $discoun = (($cart->voucher->voucher_value/100)*$total);
                 if (is_null($maxDiscoun)) {
                     $total -= $discoun;
