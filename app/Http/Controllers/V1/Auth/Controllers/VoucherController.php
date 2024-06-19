@@ -89,6 +89,13 @@ class VoucherController extends BaseController
             "applicable_product" => "sometimes|required",
         ]);
 
+        if (is_null($conditioInput['first_order_only']) || $conditioInput['first_order_only']==0) {
+            $conditioInput['first_order_only'] = null;
+        }
+        if (is_null($conditioInput['applicable_product']) || $conditioInput['applicable_product']==0) {
+            $conditioInput['applicable_product'] = null;
+        }
+
         $voucher = $this->model->where('voucher_code',$request->voucher_code)->first();
         if (empty($voucher)) {
             return $this->responseError("Không tìm thấy voucher");
@@ -108,6 +115,7 @@ class VoucherController extends BaseController
 
         
         $result = $voucher->delete();
+        $voucher->condition->delete();
         return $this->responseSuccess("Xóa voucher thành công");
     }
 
