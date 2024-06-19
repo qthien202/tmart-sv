@@ -47,9 +47,14 @@ class VoucherController extends BaseController
             $condition->voucher_code = $request?->voucher_code;
             $condition->max_discoun = $request?->max_discoun;
             $condition->min_order_amount = $request?->min_order_amount ;
-            $condition->first_order_only = $request?->first_order_only ;
+
             $condition->mobile_app_only = $request?->mobile_app_only ;
             $condition->for_loged_in_users = $request?->for_loged_in_users ;
+
+            $first_order_only = $request?->first_order_only;
+            if (is_null($first_order_only) || $first_order_only == 0) {
+                $condition->first_order_only = null ;
+            }
 
             $applicable_product = $request?->applicable_product;
             if (is_null($applicable_product) || $applicable_product == 0) {
