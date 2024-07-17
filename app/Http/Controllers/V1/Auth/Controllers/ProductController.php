@@ -249,6 +249,20 @@ class ProductController extends BaseController
 
     }
 
+    public function getTopRating(Request $request){
+        $this->validate($request,[
+            "rate" => "required", // so sao vd 5
+            "num" => "required" // so luong
+        ]);
+        $rate = $request->rate??5;
+        $num = $request->num;
+        $product = Product::whereNotNull('rating_distribution')->get();
+        dd(json_decode($product[0]->rating_distribution)->s5);
+        return new ProductCollection($product);
+
+        return "a";
+    }
+
     public function removeProduct($id)
     {
         $product = Product::find($id);

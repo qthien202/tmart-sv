@@ -8,6 +8,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->post('/create_product', 'ProductController@createProduct');
     $api->put('/update_product/{id}', 'ProductController@updateProduct');
     $api->delete('/remove_product/{id}', 'ProductController@removeProduct');
+    $api->get('/get_top_rating', 'ProductController@getTopRating');
     // Category
     $api->post('/categories', 'CategoryController@create');
     $api->put('/categories/{id:[0-9]+}', 'CategoryController@update');
@@ -29,5 +30,7 @@ $api->group(['middleware' => ['cors', 'trimInput', 'verifySecret', 'authorize','
     $api->get('/get_voucher', 'VoucherController@search');
     $api->delete('/remove_voucher/{voucher_code}', 'VoucherController@deleteVoucher');
 
+    //  Fake data
+    $api->post('/fake_data_comment', 'AdminController@fakeDataComment');
 
 });
