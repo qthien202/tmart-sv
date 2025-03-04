@@ -36,7 +36,7 @@
     "symfony/console": "^6.2",
     "symfony/mailer": "^6.2",
     "tecnickcom/tcpdf": "^6.2",
-    "tymon/jwt-auth": "^2.0"
+    "tymon/jwt-auth": "^2.1"
   },
   "require-dev": {
     "fakerphp/faker": "^1.0",
